@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masonry Image Grid</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .masonry {
+            column-count: 5;
+            column-gap: 6px;
+        }
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 0;
+            padding-bottom: 6px;
+        }
+        .masonry-item img {
+            width: 100%;
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+        <h1 class="text-3xl font-bold mb-6">Masonry Image Grid</h1>
+        <div class="masonry gap-6">
+            <div class="masonry-item">
+                <img src="https://via.placeholder.com/300x200" alt="Image 1">
+            </div>
+            <div class="masonry-item">
+                <img src="https://via.placeholder.com/300x400" alt="Image 2">
+            </div>
+            <div class="masonry-item">
+                <img src="https://via.placeholder.com/300x150" alt="Image 3">
+            </div>
+            <div class="masonry-item">
+                <img src="https://via.placeholder.com/300x300" alt="Image 4">
+            </div>
+            <div class="masonry-item">
+                <img src="https://via.placeholder.com/300x400" alt="Image 5">
+            </div>
+            <div class="masonry-item">
+                <img src="https://via.placeholder.com/300x250" alt="Image 6">
+            </div>  
+            <!-- Add more images as needed -->
+        </div>
+    </div>
+</body>
+</html>
