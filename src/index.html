@@ -7,6 +7,22 @@
     <title>Flashcard List</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
+        .masonry {
+            column-count: 5;
+            column-gap: 6px;
+        }
+
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 0;
+            padding-bottom: 6px;
+        }
+
+        .masonry-item img {
+            width: 100%;
+            display: block;
+        }
+
         .flashcard {
             perspective: 1000px;
         }
@@ -40,20 +56,24 @@
 </head>
 
 <body class="bg-gray-100">
-    <div class="container mx-auto p-4">
+    <div class="container mx-auto px-20">
         <h1 class="text-3xl font-bold mb-6">Flashcard List</h1>
-        <div class="grid grid-cols-6 md:grid-cols-2 lg:grid-cols-5 gap-6">
-            <div class="flashcard w-64 h-40 bg-white shadow-lg rounded-lg cursor-pointer">
+        <div class="masonry">
+            <div class="masonry-item flashcard w-64 h-40 bg-white shadow-lg rounded-lg cursor-pointer">
                 <div class="flashcard-inner">
-                    <div class="flashcard-front flex items-center justify-center bg-blue-500 text-white rounded-lg">
-                        <h2 class="text-2xl font-bold">Front 1</h2>
+                    <div class="flashcard-front bg-white p-4 shadow-lg rounded-lg">
+                        <h2 class="text-xl font-semibold mb-2">Flashcard 4</h2>
+                        <p class="mb-4">This is some content for flashcard 4. It has variable height.</p>
+                        <img src="https://via.placeholder.com/300x250" alt="Placeholder Image">
                     </div>
                     <div class="flashcard-back flex items-center justify-center bg-green-500 text-white rounded-lg">
-                        <h2 class="text-2xl font-bold">Back 1</h2>
+                        <h2 class="text-xl font-semibold mb-2">Flashcard 4</h2>
+                        <p class="mb-4">This is some content for flashcard 4. It has variable height.</p>
+                        <img src="https://via.placeholder.com/300x250" alt="Placeholder Image">
                     </div>
                 </div>
             </div>
-            <div class="flashcard w-64 h-40 bg-white shadow-lg rounded-lg cursor-pointer">
+            <div class="masonry-item flashcard w-64 h-40 bg-white shadow-lg rounded-lg cursor-pointer">
                 <div class="flashcard-inner">
                     <div class="flashcard-front flex items-center justify-center bg-blue-500 text-white rounded-lg">
                         <h2 class="text-2xl font-bold">Front 2</h2>
@@ -63,37 +83,7 @@
                     </div>
                 </div>
             </div>
-            <div class="flashcard w-64 h-40 bg-white shadow-lg rounded-lg cursor-pointer">
-                <div class="flashcard-inner">
-                    <div class="flashcard-front flex items-center justify-center bg-blue-500 text-white rounded-lg">
-                        <h2 class="text-2xl font-bold">Front 3</h2>
-                    </div>
-                    <div class="flashcard-back flex items-center justify-center bg-green-500 text-white rounded-lg">
-                        <h2 class="text-2xl font-bold">Back 3</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="flashcard w-75 h-90 bg-white shadow-lg rounded-lg cursor-pointer">
-                <div class="flashcard-inner">
-                    <div class="flashcard-front flex items-center justify-center bg-blue-500 text-white rounded-lg">
-                        <h2 class="text-2xl font-bold">Front 3</h2>
-                    </div>
-                    <div class="flashcard-back flex items-center justify-center bg-green-500 text-white rounded-lg">
-                        <h2 class="text-2xl font-bold">Back 3</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="flashcard w-64 h-40 bg-white shadow-lg rounded-lg cursor-pointer">
-                <div class="flashcard-inner">
-                    <div class="flashcard-front flex items-center justify-center bg-blue-500 text-white rounded-lg">
-                        <h2 class="text-2xl font-bold">Front 3</h2>
-                    </div>
-                    <div class="flashcard-back flex items-center justify-center bg-green-500 text-white rounded-lg">
-                        <h2 class="text-2xl font-bold">Back 3</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="flashcard w-64 h-40 bg-white shadow-lg rounded-lg cursor-pointer">
+            <div class="masonry-item flashcard w-64 h-40 bg-white shadow-lg rounded-lg cursor-pointer">
                 <div class="flashcard-inner">
                     <div class="flashcard-front flex items-center justify-center bg-blue-500 text-white rounded-lg">
                         <h2 class="text-2xl font-bold">Front 3</h2>

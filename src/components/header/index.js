@@ -1,43 +1,43 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
 import './header.css'; // Nếu bạn có tệp CSS cho Header
+import { Link } from 'react-router-dom';
 
 const Header = () => {
-    return (
-        <>
-            <header class="bg-white shadow">
-                <div class="container mx-auto px-4 py-6 flex justify-between items-center">
-                    <div class="text-2xl font-bold text-gray-800">
-                        MyLogo
-                    </div>
-                    <nav class="hidden md:flex space-x-6">
-                        <a href="#" class="text-gray-600 hover:text-gray-800">Home</a>
-                        <a href="#" class="text-gray-600 hover:text-gray-800">About</a>
-                        <a href="#" class="text-gray-600 hover:text-gray-800">Services</a>
-                        <a href="#" class="text-gray-600 hover:text-gray-800">Contact</a>
-                    </nav>
-                    <div class="md:hidden">
-                        <button id="mobile-menu-button" class="text-gray-600 hover:text-gray-800 focus:outline-none">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-                <div id="mobile-menu" class="hidden md:hidden">
-                    <a href="#" class="block px-4 py-2 text-gray-600 hover:text-gray-800">Home</a>
-                    <a href="#" class="block px-4 py-2 text-gray-600 hover:text-gray-800">About</a>
-                    <a href="#" class="block px-4 py-2 text-gray-600 hover:text-gray-800">Services</a>
-                    <a href="#" class="block px-4 py-2 text-gray-600 hover:text-gray-800">Contact</a>
-                </div>
-            </header>
+    const [menuOpen, setMenuOpen] = useState(false);
 
-            <main class="container mx-auto px-4 py-8">
-                <h1 class="text-4xl font-bold text-gray-800 mb-6">Welcome to My Website</h1>
-                <p class="text-gray-600">This is an example of a responsive header using Tailwind CSS.</p>
-                <p class="text-gray-600">lorem</p>
-            </main>
-        </>
+    const toggleMenu = () => {
+        setMenuOpen(!menuOpen);
+    };
+
+    return (
+        <header className="bg-white shadow">
+            <div className="container mx-auto px-4 py-6 flex justify-between items-center">
+                <div className="text-2xl font-bold text-gray-800">
+                    MyLogo
+                </div>
+                <nav className="hidden md:flex space-x-6">
+                    <Link to={"#"} className='text-gray-600 hover:text-gray-800'>Home</Link>
+                    <Link to={"#"} className='text-gray-600 hover:text-gray-800'>About</Link>
+                    <Link to={"#"} className='text-gray-600 hover:text-gray-800'>Services</Link>
+                    <Link to={"#"} className='text-gray-600 hover:text-gray-800'>search</Link>
+                    <Link to={"#"} className='text-gray-800 text-xl hover:font-bold'>Login</Link>
+                </nav>
+                <div className="md:hidden">
+                    <button id="mobile-menu-button" onClick={toggleMenu} className="text-gray-600 hover:text-gray-800 focus:outline-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div id="mobile-menu" className={`${menuOpen ? 'block' : 'hidden'} md:hidden`}>
+                <Link to={"#"} className='block px-4 py-2 text-gray-800 text-xl hover:font-bold'>Login</Link>
+                <Link to={"#"} className='block px-4 py-2 text-gray-600 hover:text-gray-800'>Home</Link>
+                <Link to={"#"} className='block px-4 py-2 text-gray-600 hover:text-gray-800'>About</Link>
+                <Link to={"#"} className='block px-4 py-2 text-gray-600 hover:text-gray-800'>Services</Link>
+                <Link to={"#"} className='block px-4 py-2 text-gray-600 hover:text-gray-800'>Contact</Link>
+            </div>
+        </header>
     );
 };
 

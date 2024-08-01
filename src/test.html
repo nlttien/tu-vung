@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masonry Flashcard Grid</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .masonry {
+            column-count: 4; /* Number of columns */
+            column-gap: 1rem; /* Gap between columns */
+        }
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 1rem; /* Gap between items */
+        }
+        .masonry-item img {
+            width: 100%;
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+        <h1 class="text-3xl font-bold mb-6">Masonry Flashcard Grid</h1>
+        <div class="masonry">
+            <div class="masonry-item bg-white p-4 shadow-lg rounded-lg">
+                <h2 class="text-xl font-semibold mb-2">Flashcard 1</h2>
+                <p class="mb-4">This is some content for flashcard 1. It has variable height.</p>
+                <img src="https://via.placeholder.com/300x150" alt="Placeholder Image">
+            </div>
+            <div class="masonry-item bg-white p-4 shadow-lg rounded-lg">
+                <h2 class="text-xl font-semibold mb-2">Flashcard 2</h2>
+                <p class="mb-4">This is some content for flashcard 2. It has variable height.</p>
+                <img src="https://via.placeholder.com/300x200" alt="Placeholder Image">
+            </div>
+            <div class="masonry-item bg-white p-4 shadow-lg rounded-lg">
+                <h2 class="text-xl font-semibold mb-2">Flashcard 3</h2>
+                <p class="mb-4">This is some content for flashcard 3. It has variable height.</p>
+                <img src="https://via.placeholder.com/300x100" alt="Placeholder Image">
+            </div>
+            <div class="masonry-item bg-white p-4 shadow-lg rounded-lg">
+                <h2 class="text-xl font-semibold mb-2">Flashcard 4</h2>
+                <p class="mb-4">This is some content for flashcard 4. It has variable height.</p>
+                <img src="https://via.placeholder.com/300x250" alt="Placeholder Image">
+            </div>
+            <div class="masonry-item bg-white p-4 shadow-lg rounded-lg">
+                <h2 class="text-xl font-semibold mb-2">Flashcard 5</h2>
+                <p class="mb-4">This is some content for flashcard 5. It has variable height.</p>
+                <img src="https://via.placeholder.com/300x300" alt="Placeholder Image">
+            </div>
+            <!-- Add more flashcards as needed -->
+        </div>
+    </div>
+</body>
+</html>
