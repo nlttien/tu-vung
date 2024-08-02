@@ -9,7 +9,7 @@ const App = () => {
     <Router>
       <Header />
       <div className='container mx-auto px-10'>
-        <nav>
+        <nav className='p-3'>
           <ul>
             <li><Link to="/">Home</Link></li>
           </ul>
