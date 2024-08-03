@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Notification from '../../components/notification';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const role = "user"
+
+  const navigate = useNavigate();
 
   const [notification, setNotification] = useState(null);
 
@@ -21,17 +24,20 @@ const Login = () => {
       .then((response) => {
         showNotification(response.data.message, 'success');
       }).catch((err) => {
-        showNotification(err.response.data.message,"error", err.response.data.message);
+        showNotification(err.response.data.message, "error", err.response.data.message);
       });
   };
 
   const login = async () => {
-    await axios.post('http://localhost:3001/login', { username, password, role })
-      .then((response) => {
-        showNotification(response.data.message, 'success');
-      }).catch((err) => {
-        showNotification(err.response.data.message,"error", err.response.data.message);
-      });
+    await axios.post('http://localhost:3001/login', { username, password, role }, {
+      withCredentials: true // Include cookies in the request
+    }).then((response) => {
+      alert(response.data.message)
+      navigate('/');
+      showNotification(response.data.message, 'success');
+    }).catch((err) => {
+      showNotification(err.response.data.message, "error", err.response.data.message);
+    });
   };
 
   return (
