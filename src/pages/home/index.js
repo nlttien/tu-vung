@@ -1,6 +1,8 @@
 import React from 'react';
 import './home.css'; // Nếu bạn có tệp CSS cho Home
 import List from '../../components/list/list';
+import Header from '../../components/header';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
   const flashcards = [
@@ -20,9 +22,19 @@ const Home = () => {
     { front: 'Front 6', back: 'Back 6' },
     // Add more flashcards as needed
   ];
-  
+
   return (
-    <List items={flashcards} />
+    <>
+      <Header />
+      <div className='container mx-auto px-10'>
+        <nav className='p-3'>
+          <ul>
+            <li><Link to="/">Home</Link></li>
+          </ul>
+        </nav>
+        <List items={flashcards} />
+      </div>
+    </>
   );
 };
 

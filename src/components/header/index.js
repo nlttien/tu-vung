@@ -20,7 +20,7 @@ const Header = () => {
                     <Link to={"#"} className='text-gray-600 hover:text-gray-800'>About</Link>
                     <Link to={"#"} className='text-gray-600 hover:text-gray-800'>Services</Link>
                     <Link to={"#"} className='text-gray-600 hover:text-gray-800'>search</Link>
-                    <Link to={"#"} className='text-gray-800 text-xl hover:font-bold'>Login</Link>
+                    <Link to={"/login"} className='text-gray-800 text-xl hover:font-bold'>Login</Link>
                 </nav>
                 <div className="md:hidden">
                     <button id="mobile-menu-button" onClick={toggleMenu} className="text-gray-600 hover:text-gray-800 focus:outline-none">
