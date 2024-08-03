@@ -1,10 +1,25 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import './home.css'; // Nếu bạn có tệp CSS cho Home
 import List from '../../components/list/list';
 import Header from '../../components/header';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import AuthContext from '../../components/AuthContext';
 
 const Home = () => {
+  const { isAuthenticated } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkAuthNavigate = async () => {
+      if (!isAuthenticated) {
+        navigate('/login');
+        return null;
+      }
+    };
+
+    checkAuthNavigate();
+  }, [isAuthenticated,navigate]);
+
   const flashcards = [
     { front: 'Front 1', back: 'Bsdddddddddddddddddddddddddsdfasdfadfzsddfsdfasdfasdfack 1' },
     { front: 'Front 2', back: 'Back 2BsdddddddddddddddddddddddddsdfasdfadfzsddfsdfasdfasdfackBsdddddddddddddddddddddddddsdfasdfadfzsddfsdfasdfasdfackBsdddddddddddddddddddddddddsdfasdfadfzsddfsdfasdfasdfackBsdddddddddddddddddddddddddsdfasdfadfzsddfsdfasdfasdfack' },

@@ -1,16 +1,28 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import Notification from '../../components/notification';
 import { useNavigate } from 'react-router-dom';
+import AuthContext from '../../components/AuthContext';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [notification, setNotification] = useState(null);
   const role = "user"
 
+  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const [notification, setNotification] = useState(null);
+  useEffect(() => {
+    const checkAuthNavigate = async () => {
+      if (isAuthenticated) {
+        navigate('/');
+        return null;
+      }
+    };
+
+    checkAuthNavigate();
+  }, [navigate, isAuthenticated]);
 
   const showNotification = (message, type) => {
     setNotification({ message, type });
@@ -33,6 +45,7 @@ const Login = () => {
       withCredentials: true // Include cookies in the request
     }).then((response) => {
       alert(response.data.message)
+      setIsAuthenticated(true)
       navigate('/');
       showNotification(response.data.message, 'success');
     }).catch((err) => {

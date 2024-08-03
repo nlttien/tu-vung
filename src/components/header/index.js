@@ -1,12 +1,31 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './header.css'; // Nếu bạn có tệp CSS cho Header
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import AuthContext from '../AuthContext';
 
 const Header = () => {
     const [menuOpen, setMenuOpen] = useState(false);
+    const { isAuthenticated,setIsAuthenticated } = useContext(AuthContext);
+
+    const navigate = useNavigate();
 
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
+    };
+
+    const handleLogout = async () => {
+        try {
+            // Make a request to the server to log out the user
+            await axios.post('http://localhost:3001/logout', {}, { withCredentials: true });
+
+            setIsAuthenticated(false)
+
+            navigate("/login")
+        } catch (error) {
+            console.error('Logout failed', error);
+            // Handle error (e.g., show a notification or alert)
+        }
     };
 
     return (
@@ -20,7 +39,12 @@ const Header = () => {
                     <Link to={"#"} className='text-gray-600 hover:text-gray-800'>About</Link>
                     <Link to={"#"} className='text-gray-600 hover:text-gray-800'>Services</Link>
                     <Link to={"#"} className='text-gray-600 hover:text-gray-800'>search</Link>
-                    <Link to={"/login"} className='text-gray-800 text-xl hover:font-bold'>Login</Link>
+                    {
+                        isAuthenticated ?
+                        <Link to={"/login"} className='text-gray-800 text-xl hover:font-bold' onClick={handleLogout}>Logout</Link>:
+                        <div to={"/login"} className='text-gray-800 text-xl hover:font-bold'>Login</div> 
+                    }
+
                 </nav>
                 <div className="md:hidden">
                     <button id="mobile-menu-button" onClick={toggleMenu} className="text-gray-600 hover:text-gray-800 focus:outline-none">
