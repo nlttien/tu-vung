@@ -5,7 +5,7 @@ import Flashcard from '../flashcard/flashcard';
 const List = ({ items }) => {
   return (
     <div>
-      <div className="masonry">
+      <div className="columns-3xs">
         {items.map((item, index) => <Flashcard key={index} front={item.front} back={item.back} />)}
       </div>
     </div>

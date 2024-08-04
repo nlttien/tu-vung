@@ -1,24 +1,10 @@
-import React, { useContext, useEffect } from 'react';
+import React from 'react';
 import './home.css'; // Nếu bạn có tệp CSS cho Home
 import List from '../../components/list/list';
-import Header from '../../components/header';
-import { Link, useNavigate } from 'react-router-dom';
-import AuthContext from '../../components/AuthContext';
+import useAuthRedirect from '../../hooks/useAuthRedirect';
 
 const Home = () => {
-  const { isAuthenticated } = useContext(AuthContext);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const checkAuthNavigate = async () => {
-      if (!isAuthenticated) {
-        navigate('/login');
-        return null;
-      }
-    };
-
-    checkAuthNavigate();
-  }, [isAuthenticated, navigate]);
+  useAuthRedirect(false, "/admin", "/");
 
   const flashcards = [
     { front: 'Front 1', back: 'Bsdddddddddddddddddddddddddsdfasdfadfzsddfsdfasdfasdfack 1' },
@@ -39,17 +25,9 @@ const Home = () => {
   ];
 
   return (
-    <>
-      <Header />
-      <div className='container mx-auto px-10'>
-        <nav className='p-3'>
-          <ul>
-            <li><Link to="/">Home</Link></li>
-          </ul>
-        </nav>
-        <List items={flashcards} />
-      </div>
-    </>
+    <div className='container mx-auto px-10'>
+      <List items={flashcards} />
+    </div>
   );
 };
 

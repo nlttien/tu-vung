@@ -43,3 +43,23 @@ body {
   background-color: rgba(243, 244, 246, var(--tw-bg-opacity));
   text-decoration: none;
 }
+
+ul {
+  list-style-type: none; /* Loại bỏ dấu chấm trước các thẻ <li> */
+  padding: 0; /* Loại bỏ padding mặc định */
+  margin: 0; /* Loại bỏ margin mặc định */
+}
+
+ul li {
+  display: inline; /* Hiển thị các thẻ <li> trên cùng một hàng */
+  list-style-type: none; /* Loại bỏ dấu chấm trước các thẻ <li> */
+}
+
+ul li + li::before {
+  content: '/'; /* Thêm dấu phân cách giữa các liên kết */
+  margin: 0 0.5rem; /* Thêm khoảng cách giữa dấu phân cách và các liên kết */
+}
+
+li::marker {
+  display: none !important; /* Hoặc không thêm quy tắc này nếu không muốn sử dụng ::marker */
+}

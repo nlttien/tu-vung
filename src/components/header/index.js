@@ -1,36 +1,21 @@
 import React, { useContext, useState } from 'react';
 import './header.css'; // Nếu bạn có tệp CSS cho Header
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { Link } from 'react-router-dom';
 import AuthContext from '../AuthContext';
 import logo from "../../logo/nihongo-high-resolution-logo-transparent.png"
+import useLogout from '../../hooks/useLogout';
 
 const Header = () => {
     const [menuOpen, setMenuOpen] = useState(false);
-    const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
-
-    const navigate = useNavigate();
+    const { isAuthenticated } = useContext(AuthContext);
+    const { handleLogout } = useLogout();
 
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
     };
 
-    const handleLogout = async () => {
-        try {
-            // Make a request to the server to log out the user
-            await axios.post('http://localhost:3001/logout', {}, { withCredentials: true });
-
-            setIsAuthenticated(false)
-
-            navigate("/login")
-        } catch (error) {
-            console.error('Logout failed', error);
-            // Handle error (e.g., show a notification or alert)
-        }
-    };
-
     return (
-        <header className="bg-white shadow px-10">
+        <header className="bg-white shadow px-">
             <div className="container mx-auto px-4 py-6 flex justify-between items-center">
                 <div className="text-2xl font-bold text-gray-800">
                     <img
@@ -40,16 +25,15 @@ const Header = () => {
                     />
                 </div>
                 <nav className="hidden md:flex space-x-6">
-                    <Link to={"#"} className='text-gray-600 hover:text-gray-800'>Home</Link>
-                    <Link to={"#"} className='text-gray-600 hover:text-gray-800'>About</Link>
-                    <Link to={"#"} className='text-gray-600 hover:text-gray-800'>Services</Link>
-                    <Link to={"#"} className='text-gray-600 hover:text-gray-800'>search</Link>
+                    <Link to="/" className='text-gray-600 hover:text-gray-800'>Home</Link>
+                    <Link to="/type" className='text-gray-600 hover:text-gray-800'>Type</Link>
+                    <Link to="/search" className='text-gray-600 hover:text-gray-800'>Search</Link>
+                    <Link to="/game" className='text-gray-600 hover:text-gray-800'>Game</Link>
                     {
                         isAuthenticated ?
-                            <Link to={"/login"} className='text-gray-800 text-xl hover:font-bold' onClick={handleLogout}>Logout</Link> :
-                            <div to={"/login"} className='text-gray-800 text-xl hover:font-bold'>Login</div>
+                            <Link to="#" className='text-gray-800 text-xl hover:font-bold' onClick={handleLogout}>Logout</Link> :
+                            <Link to="/login" className='text-gray-800 text-xl hover:font-bold'>Login</Link>
                     }
-
                 </nav>
                 <div className="md:hidden">
                     <button id="mobile-menu-button" onClick={toggleMenu} className="text-gray-600 hover:text-gray-800 focus:outline-none">
@@ -60,11 +44,11 @@ const Header = () => {
                 </div>
             </div>
             <div id="mobile-menu" className={`${menuOpen ? 'block' : 'hidden'} md:hidden`}>
-                <Link to={"#"} className='block px-4 py-2 text-gray-800 text-xl hover:font-bold'>Login</Link>
-                <Link to={"#"} className='block px-4 py-2 text-gray-600 hover:text-gray-800'>Home</Link>
-                <Link to={"#"} className='block px-4 py-2 text-gray-600 hover:text-gray-800'>About</Link>
-                <Link to={"#"} className='block px-4 py-2 text-gray-600 hover:text-gray-800'>Services</Link>
-                <Link to={"#"} className='block px-4 py-2 text-gray-600 hover:text-gray-800'>Contact</Link>
+                <Link to="#" className='lock px-4 py-2 text-gray-800 text-xl hover:font-bold' onClick={handleLogout}>Logout</Link>
+                <Link to="/" className='block px-4 text-gray-600 hover:text-gray-800'>Home</Link>
+                <Link to="/type" className='block px-4 text-gray-600 hover:text-gray-800'>Type</Link>
+                <Link to="/search" className='block px-4 text-gray-600 hover:text-gray-800'>Search</Link>
+                <Link to="/game" className='block px-4 text-gray-600 hover:text-gray-800'>Game</Link>
             </div>
         </header>
     );

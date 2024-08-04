@@ -1,28 +1,20 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import Notification from '../../components/notification';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../../components/AuthContext';
+import useAuthRedirect from '../../hooks/useAuthRedirect';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [notification, setNotification] = useState(null);
-  const role = "user"
+  const roleDefault = "user"
 
-  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+  const { setIsAuthenticated, setRole } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const checkAuthNavigate = async () => {
-      if (isAuthenticated) {
-        navigate('/');
-        return null;
-      }
-    };
-
-    checkAuthNavigate();
-  }, [navigate, isAuthenticated]);
+  useAuthRedirect(false, "/admin", "/");
 
   const showNotification = (message, type) => {
     setNotification({ message, type });
@@ -32,7 +24,7 @@ const Login = () => {
   };
 
   const register = async () => {
-    await axios.post('http://localhost:3001/register', { username, password, role })
+    await axios.post('http://localhost:3001/register', { username, password, role: roleDefault })
       .then((response) => {
         showNotification(response.data.message, 'success');
       }).catch((err) => {
@@ -41,12 +33,22 @@ const Login = () => {
   };
 
   const login = async () => {
-    await axios.post('http://localhost:3001/login', { username, password, role }, {
+    await axios.post('http://localhost:3001/login', { username, password, role: roleDefault }, {
       withCredentials: true // Include cookies in the request
     }).then((response) => {
       alert(response.data.message)
+
       setIsAuthenticated(true)
-      navigate('/');
+      setRole(response.data.role);
+
+      if (response.data.role === "user") {
+        navigate('/');
+        return null;
+      } else if (response.data.role === "admin") {
+        navigate('/admin');
+        return null;
+      }
+
       showNotification(response.data.message, 'success');
     }).catch((err) => {
       showNotification(err.response.data.message, "error", err.response.data.message);
