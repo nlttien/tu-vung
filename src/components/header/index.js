@@ -1,14 +1,15 @@
 import React, { useContext, useState } from 'react';
 import './header.css'; // Nếu bạn có tệp CSS cho Header
 import { Link } from 'react-router-dom';
-import AuthContext from '../AuthContext';
+import AuthContext from '../../contexts/AuthContext';
 import logo from "../../logo/nihongo-high-resolution-logo-transparent.png"
-import useLogout from '../../hooks/useLogout';
+import useAuth from '../../hooks/useAuth';
 
 const Header = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const { isAuthenticated } = useContext(AuthContext);
-    const { handleLogout } = useLogout();
+    const { logout } = useAuth();
+
 
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
@@ -31,7 +32,7 @@ const Header = () => {
                     <Link to="/game" className='text-gray-600 hover:text-gray-800'>Game</Link>
                     {
                         isAuthenticated ?
-                            <Link to="#" className='text-gray-800 text-xl hover:font-bold' onClick={handleLogout}>Logout</Link> :
+                            <Link to="#" className='text-gray-800 text-xl hover:font-bold' onClick={logout}>Logout</Link> :
                             <Link to="/login" className='text-gray-800 text-xl hover:font-bold'>Login</Link>
                     }
                 </nav>
@@ -44,7 +45,7 @@ const Header = () => {
                 </div>
             </div>
             <div id="mobile-menu" className={`${menuOpen ? 'block' : 'hidden'} md:hidden`}>
-                <Link to="#" className='lock px-4 py-2 text-gray-800 text-xl hover:font-bold' onClick={handleLogout}>Logout</Link>
+                <Link to="#" className='lock px-4 py-2 text-gray-800 text-xl hover:font-bold' onClick={logout}>Logout</Link>
                 <Link to="/" className='block px-4 text-gray-600 hover:text-gray-800'>Home</Link>
                 <Link to="/type" className='block px-4 text-gray-600 hover:text-gray-800'>Type</Link>
                 <Link to="/search" className='block px-4 text-gray-600 hover:text-gray-800'>Search</Link>

@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
-import AuthContext from '../components/AuthContext';
+import AuthContext from '../contexts/AuthContext';
 
 /**
  * Custom hook để điều hướng dựa trên trạng thái xác thực và vai trò người dùng.

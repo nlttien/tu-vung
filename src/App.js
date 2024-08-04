@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate, useLocation } from 'r
 import Home from './pages/home';
 import './App.css';
 import Login from './pages/login/login';
-import { AuthProvider } from './components/AuthContext';
+import { AuthProvider } from './contexts/AuthContext';
 import Search from './pages/search';
 import Game from './pages/game';
 import Type from './pages/type';
