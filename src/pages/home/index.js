@@ -18,7 +18,7 @@ const Home = () => {
     };
 
     checkAuthNavigate();
-  }, [isAuthenticated,navigate]);
+  }, [isAuthenticated, navigate]);
 
   const flashcards = [
     { front: 'Front 1', back: 'Bsdddddddddddddddddddddddddsdfasdfadfzsddfsdfasdfasdfack 1' },

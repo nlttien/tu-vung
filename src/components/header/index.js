@@ -3,10 +3,11 @@ import './header.css'; // Nếu bạn có tệp CSS cho Header
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import AuthContext from '../AuthContext';
+import logo from "../../logo/nihongo-high-resolution-logo-transparent.png"
 
 const Header = () => {
     const [menuOpen, setMenuOpen] = useState(false);
-    const { isAuthenticated,setIsAuthenticated } = useContext(AuthContext);
+    const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
 
     const navigate = useNavigate();
 
@@ -29,10 +30,14 @@ const Header = () => {
     };
 
     return (
-        <header className="bg-white shadow">
+        <header className="bg-white shadow px-10">
             <div className="container mx-auto px-4 py-6 flex justify-between items-center">
                 <div className="text-2xl font-bold text-gray-800">
-                    MyLogo
+                    <img
+                        src={logo} // Replace with the path to your logo image
+                        alt="My Logo"
+                        className="h-10 w-auto" // Adjust height and width as needed
+                    />
                 </div>
                 <nav className="hidden md:flex space-x-6">
                     <Link to={"#"} className='text-gray-600 hover:text-gray-800'>Home</Link>
@@ -41,8 +46,8 @@ const Header = () => {
                     <Link to={"#"} className='text-gray-600 hover:text-gray-800'>search</Link>
                     {
                         isAuthenticated ?
-                        <Link to={"/login"} className='text-gray-800 text-xl hover:font-bold' onClick={handleLogout}>Logout</Link>:
-                        <div to={"/login"} className='text-gray-800 text-xl hover:font-bold'>Login</div> 
+                            <Link to={"/login"} className='text-gray-800 text-xl hover:font-bold' onClick={handleLogout}>Logout</Link> :
+                            <div to={"/login"} className='text-gray-800 text-xl hover:font-bold'>Login</div>
                     }
 
                 </nav>
