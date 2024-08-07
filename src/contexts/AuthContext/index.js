@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/verify-token', { withCredentials: true });
+        const response = await axios.get('http://localhost:3001/api/auth/verify-token', { withCredentials: true });
         setIsAuthenticated(response.status === 200);
         setRole(response.data.role);
       } catch (error) {

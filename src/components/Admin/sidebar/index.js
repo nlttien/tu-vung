@@ -8,13 +8,10 @@ const Sidebar = () => {
       <nav className="mt-6">
         <ul>
           <li>
-            <Link to="/dashboard" className="block p-4 hover:bg-gray-700">Dashboard</Link>
+            <Link to="" className="block p-4 hover:bg-gray-700">Dashboard</Link>
           </li>
           <li>
-            <Link to="/users" className="block p-4 hover:bg-gray-700">Users</Link>
-          </li>
-          <li>
-            <Link to="/settings" className="block p-4 hover:bg-gray-700">Settings</Link>
+            <Link to="/admin/vocabulary" className="block p-4 hover:bg-gray-700">vocabularies</Link>
           </li>
         </ul>
       </nav>

@@ -11,7 +11,7 @@ import AuthContext from '../contexts/AuthContext';
  * @param {string} options.adminPath - Đường dẫn cho admin
  * @param {string} options.userPath - Đường dẫn cho người dùng
  */
-const useAuthRedirect = ({ redirectToLogin = false, adminPath = '/admin', userPath = '/' }) => {
+const useAuthRedirect = ({ redirectToLogin = true, adminPath = '/admin', userPath = '/' }) => {
   const { isAuthenticated, role } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -27,12 +27,12 @@ const useAuthRedirect = ({ redirectToLogin = false, adminPath = '/admin', userPa
       }
 
       if (isAuthenticated && role === "admin") {
-        navigate(adminPath);
+        navigate(window.location.pathname.startsWith("/admin") ? window.location.pathname : "/admin");
         return;
       }
 
       if (isAuthenticated && role === "user") {
-        navigate(userPath);
+        navigate(window.location.pathname.startsWith("/user") ? window.location.pathname : "/user");
         return;
       }
     };

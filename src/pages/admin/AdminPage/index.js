@@ -1,8 +1,8 @@
 import React from 'react';
 import Sidebar from '../../../components/Admin/sidebar';
 import Header from '../../../components/Admin/header';
-import Dashboard from '../../../components/Admin/dashboard';
 import useAuthRedirect from '../../../hooks/useAuthRedirect';
+import { Outlet } from 'react-router-dom';
 
 const AdminPage = () => {
   useAuthRedirect(false, "/admin", "/");
@@ -13,7 +13,7 @@ const AdminPage = () => {
       <div className="flex-1">
         <Header />
         <main className="p-6">
-          <Dashboard />
+          <Outlet /> {/* Render child routes here */}
         </main>
       </div>
     </div>

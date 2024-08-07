@@ -10,7 +10,7 @@ const useAuth = () => {
 
   const login = async (username, password) => {
     try {
-      const response = await axios.post('http://localhost:3001/login', {
+      const response = await axios.post('http://localhost:3001/api/auth/login', {
         username,
         password
       }, {
@@ -30,7 +30,7 @@ const useAuth = () => {
   const logout = async () => {
     try {
       // Make a request to the server to log out the user
-      await axios.post('http://localhost:3001/logout', {}, { withCredentials: true });
+      await axios.post('http://localhost:3001/api/auth/logout', {}, { withCredentials: true });
 
       setIsAuthenticated(false);
       navigate("/login");
@@ -41,7 +41,7 @@ const useAuth = () => {
   };
 
   const register = async (username, password) => {
-    await axios.post('http://localhost:3001/register', { username, password, role: roleDefault })
+    await axios.post('http://localhost:3001/api/auth/register', { username, password, role: roleDefault })
       .then((response) => {
         alert(response.data.message)
         // showNotification(response.data.message, 'success');
