@@ -13,6 +13,7 @@ import AdminPage from './pages/admin/AdminPage';
 import VocabularyTable from './pages/admin/VocabularyTable';
 import Dashboard from './pages/admin/dashboard';
 import NotFound from './pages/notFound';
+import UserManagement from './pages/admin/UserManagement';
 
 const App = () => {
   const location = useLocation();
@@ -32,6 +33,7 @@ const App = () => {
         <Route path="/admin" element={<AdminPage />}>
           <Route index element={<Dashboard />} />
           <Route path="vocabulary" element={<VocabularyTable />} />
+          <Route path="users" element={<UserManagement />} /> 
         </Route>
         <Route path="*" element={<NotFound />} /> {/* Handle 404 */}
       </Routes>

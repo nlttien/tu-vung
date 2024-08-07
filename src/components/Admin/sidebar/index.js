@@ -13,6 +13,9 @@ const Sidebar = () => {
           <li>
             <Link to="/admin/vocabulary" className="block p-4 hover:bg-gray-700">vocabularies</Link>
           </li>
+          <li>
+            <Link to="/admin/users" className="block p-4 hover:bg-gray-700">user</Link>
+          </li>
         </ul>
       </nav>
     </div>
