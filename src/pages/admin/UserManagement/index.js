@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Error from '../../../components/error';
 import Loading from '../../../components/loading';
+import config from "../../../untils/config";
 
 const UserManagement = () => {
   const [users, setUsers] = useState([]);
@@ -13,7 +14,7 @@ const UserManagement = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/users');
+        const response = await axios.get(`${config.BE_URI}/api/users`);
         setUsers(response.data);
       } catch (err) {
         setError(err.message);
@@ -34,7 +35,7 @@ const UserManagement = () => {
 
   const handleAddUser = async () => {
     try {
-      const response = await axios.post('http://localhost:3001/api/auth/register', formData);
+      const response = await axios.post(`${config.BE_URI}/api/auth/register`, formData);
       setUsers([...users, response.data]);
       setFormData({ username: '',password: '', role: '' });
     } catch (err) {
@@ -44,7 +45,7 @@ const UserManagement = () => {
 
   const handleEditUser = async () => {
     try {
-      await axios.put(`http://localhost:3001/api/users/${editingUserId}`, formData);
+      await axios.put(`${config.BE_URI}/api/users/${editingUserId}`, formData);
       setUsers(users.map(user => (user._id === editingUserId ? { ...user, ...formData } : user)));
       setEditingUserId(null);
       setFormData({ username: '', role: '' });
@@ -55,7 +56,7 @@ const UserManagement = () => {
 
   const handleDeleteUser = async (id) => {
     try {
-      await axios.delete(`http://localhost:3001/api/users/${id}`);
+      await axios.delete(`${config.BE_URI}/api/users/${id}`);
       setUsers(users.filter(user => user._id !== id));
     } catch (err) {
       setError(err.message);

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import config from "../untils/config";
 
 const useVocabularies = () => {
   const [vocabularies, setVocabularies] = useState([]);
@@ -16,7 +17,7 @@ const useVocabularies = () => {
   useEffect(() => {
     const fetchVocabularies = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/vocabularies');
+        const response = await axios.get(`${config.BE_URI}/api/vocabularies`);
         setVocabularies(response.data);
       } catch (err) {
         setError(err.message);
@@ -37,7 +38,7 @@ const useVocabularies = () => {
 
   const handleAddVocabulary = async () => {
     try {
-      const response = await axios.post('http://localhost:3001/api/vocabularies', formData);
+      const response = await axios.post(`${config.BE_URI}/api/vocabularies`, formData);
       setVocabularies([...vocabularies, response.data]);
       setFormData({
         type: '',
@@ -52,7 +53,7 @@ const useVocabularies = () => {
 
   const handleEditVocabulary = async (id) => {
     try {
-      await axios.put(`http://localhost:3001/api/vocabularies/${id}`, formData);
+      await axios.put(`${config.BE_URI}/api/vocabularies/${id}`, formData);
       const updatedVocabularies = vocabularies.map(v => (v._id === id ? { ...v, ...formData } : v));
       setVocabularies(updatedVocabularies);
       setEditingVocabulary(null);
@@ -69,7 +70,7 @@ const useVocabularies = () => {
 
   const handleDeleteVocabulary = async (id) => {
     try {
-      await axios.delete(`http://localhost:3001/api/vocabularies/${id}`);
+      await axios.delete(`${config.BE_URI}/api/vocabularies/${id}`);
       setVocabularies(vocabularies.filter(v => v._id !== id));
     } catch (err) {
       setError(err.message);

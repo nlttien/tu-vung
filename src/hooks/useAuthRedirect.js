@@ -32,7 +32,7 @@ const useAuthRedirect = ({ redirectToLogin = true, adminPath = '/admin', userPat
       }
 
       if (isAuthenticated && role === "user") {
-        navigate(window.location.pathname.startsWith("/user") ? window.location.pathname : "/user");
+        navigate(window.location.pathname.startsWith("/admin") || window.location.pathname.startsWith("/login") ? "/" : window.location.pathname);
         return;
       }
     };

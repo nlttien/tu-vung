@@ -4,7 +4,6 @@ import Home from './pages/home';
 import './App.css';
 import Login from './pages/login/login';
 import { AuthProvider } from './contexts/AuthContext';
-import Search from './pages/search';
 import Game from './pages/game';
 import Type from './pages/type';
 import Header from './components/header';
@@ -14,6 +13,7 @@ import VocabularyTable from './pages/admin/VocabularyTable';
 import Dashboard from './pages/admin/dashboard';
 import NotFound from './pages/notFound';
 import UserManagement from './pages/admin/UserManagement';
+import SearchPage from './pages/SearchPage/indes';
 
 const App = () => {
   const location = useLocation();
@@ -22,20 +22,22 @@ const App = () => {
 
   return (
     <div>
-      {(!isLoginPage && !isAdminPage) && <Header />} {/* Render Header only if not on the login page */}
-      {(!isLoginPage && !isAdminPage) && <Breadcrumb />} {/* Render Breadcrumb only if not on the login page */}
+      {(!isLoginPage && !isAdminPage) && <Header />}
+      {/* Render Header only if not on the login page */}
+      {(!isLoginPage && !isAdminPage) && <Breadcrumb />}
+      {/* Render Breadcrumb only if not on the login page */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/search" element={<Search />} />
+        <Route path="/search" element={<SearchPage />} />
         <Route path="/type" element={<Type />} />
         <Route path="/game" element={<Game />} />
         <Route path="/admin" element={<AdminPage />}>
           <Route index element={<Dashboard />} />
           <Route path="vocabulary" element={<VocabularyTable />} />
-          <Route path="users" element={<UserManagement />} /> 
+          <Route path="users" element={<UserManagement />} />
         </Route>
-        <Route path="*" element={<NotFound />} /> {/* Handle 404 */}
+        <Route path="*" element={<NotFound />} /> Handle 404
       </Routes>
     </div>
   );

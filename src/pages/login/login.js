@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Notification from '../../components/notification';
 import useAuthRedirect from '../../hooks/useAuthRedirect';
 import useAuth from '../../hooks/useAuth';
+import AuthContext from '../../contexts/AuthContext';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -9,6 +10,7 @@ const Login = () => {
   const [notification, setNotification] = useState(null);
 
   const { login, register } = useAuth();
+  const { message } = useContext(AuthContext);
 
   useAuthRedirect(false, "/admin", "/");
 
@@ -38,6 +40,11 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
+          {message && (
+            <div className="bg-red-500 text-white p-3 rounded mb-4">
+              {message}
+            </div>
+          )}
           <div className="flex flex-col gap-4">
             <div className="flex gap-4">
               <div
