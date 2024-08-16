@@ -1,31 +1,49 @@
-// src/hooks/useSearch.js
-
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import config from "../untils/config";
 
 const useSearch = (query) => {
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState();
+  const [history, setHistory] = useState();
+
+  // Function to save search history
+  const saveSearchHistory = (query) => {
+    if (!query) return;
+
+    let existingHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
+
+    // Avoid duplicates
+    if (!existingHistory.includes(query)) {
+      existingHistory.push(query);
+
+      // Save the updated history to localStorage
+      localStorage.setItem('searchHistory', JSON.stringify(existingHistory));
+      setHistory(existingHistory);
+    }
+  };
 
   const search = async (query) => {
     if (query) {
       try {
-        const response = await axios.get(`${config.BE_URI}/api/search?q=${query}`);
+        const response = await axios.post(`${config.BE_URI}/api/vocabylary/search`, { subject: query });
         setResults(response.data);
+        saveSearchHistory(response.data); // Save query to history after successful search
       } catch (err) {
         console.error(err);
-        setResults([]);
+        setResults();
       }
     } else {
-      setResults([]);
+      setResults();
     }
   };
 
+  // Load search history when component mounts
   useEffect(() => {
-    search(query);
-  }, [query]);
+    const existingHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
+    setHistory(existingHistory);
+  }, []);
 
-  return {results, search};
+  return { results, history, search };
 };
 
-export default useSearch; 
+export default useSearch;

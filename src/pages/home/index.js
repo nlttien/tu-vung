@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import './home.css'; // Nếu bạn có tệp CSS cho Home
 import useAuthRedirect from '../../hooks/useAuthRedirect';
 import useAuth from '../../hooks/useAuth';
-import axios from 'axios';
-import VocabularyDetails from "../../components/VocabularyDetails";
+import List from "../../components/list";
 
 const Home = () => {
   useAuthRedirect(false, "/admin", "/");
-  const [giaiThich, setGiaiThich] = useState()
   const { refreshToken } = useAuth();
 
   useEffect(() => {
@@ -19,19 +17,6 @@ const Home = () => {
 
     refresh();
   }, [refreshToken]);
-
-  useEffect(() => {
-    const refresh = async () => {
-      const res = await axios.post("http://127.0.0.1:5001/tu-vung-447ad/us-central1/beServerFunction/api/vocabylary/search", { subject: "時代" })
-      setGiaiThich(res.data);
-
-      return null;
-    };
-
-    refresh();
-  }, []);
-
-  console.log(giaiThich);
 
   const flashcards = [
     { front: 'Front 1', back: 'Bsdddddddddddddddddddddddddsdfasdfadfzsddfsdfasdfasdfack 1' },
@@ -53,8 +38,7 @@ const Home = () => {
 
   return (
     <div className='container mx-auto px-10'>
-      {/* <List items={flashcards} /> */}
-      {giaiThich && <VocabularyDetails details={giaiThich} />}
+      <List items={flashcards} />
     </div>
   );
 };
