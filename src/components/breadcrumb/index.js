@@ -6,7 +6,7 @@ const Breadcrumb = () => {
   const pathnames = location.pathname.split('/').filter(x => x);
 
   return (
-    <nav className='container mx-auto px-10 py-3'>
+    <nav className='container breadcrumb mx-auto px-10 py-3'>
       <ul className='flex space-x-2 list-none p-0'>
         <div>
           <Link to="/" className='text-gray-600 hover:text-gray-800'>Home</Link>
