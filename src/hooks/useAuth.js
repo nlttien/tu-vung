@@ -40,7 +40,7 @@ const useAuth = () => {
   };
 
   const register = async (username, password) => {
-    await axios.post(`${config.BE_URI}/api/auth/register`, { username, password, role: roleDefault })
+    await axios.post(`${config.BE_URI}/api/auth/register`, { username, password, role: roleDefault }, { withCredentials: true })
       .then((response) => {
         alert(response.data.message);
       }).catch((err) => {
