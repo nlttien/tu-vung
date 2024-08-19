@@ -1,13 +1,11 @@
-// src/pages/SearchPage.js
-
 import React, { useState } from 'react';
 import useSearch from '../../hooks/useSearch';
 import VocabularyDetails from '../../components/VocabularyDetails';
+import Loading from '../../components/loading'; // Import Loading component
 
 const SearchPage = () => {
-  // const [giaiThich, setGiaiThich] = useState()
   const [query, setQuery] = useState('');
-  const { results, history, search } = useSearch(query);
+  const { results, history, search, loading } = useSearch(query);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -24,35 +22,41 @@ const SearchPage = () => {
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Enter search term"
           className="border p-2 flex-1 rounded-l-md"
+          disabled={loading} // Disable input while loading
         />
         <button
           type="submit"
           onClick={handleSearch}
           className="bg-blue-500 text-white p-2 rounded-r-md hover:bg-blue-600"
+          disabled={loading} // Disable button while loading
         >
-          Search
+          {loading ? 'Searching...' : 'Search'} {/* Change button text while loading */}
         </button>
       </form>
-      <div className="grid grid-cols-3 gap-4">
-        <div className="p-4 bg-white shadow-lg rounded-lg">
-          {/* Cột 1: Search History */}
-          <div className="col-span-1">
-            <h2 className="text-xl font-semibold mb-2">Search History</h2>
-            {history && history.length > 0 ? (
-              <ul className="list-disc pl-5">
-                {history.map((item, index) => (
-                  <li key={index} className="text-lg font-medium">
-                    {item.japaneseWord}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-lg font-medium">No search history available.</p>
-            )}
+      {loading ? (
+        <Loading /> // Show Loading component while loading
+      ) : (
+        <div className="grid grid-cols-3 gap-4">
+          <div className="p-4 bg-white shadow-lg rounded-lg">
+            {/* Cột 1: Search History */}
+            <div className="col-span-1">
+              <h2 className="text-xl font-semibold mb-2">Search History</h2>
+              {history && history.length > 0 ? (
+                <ul className="list-disc pl-5">
+                  {history.map((item, index) => (
+                    <li key={index} className="text-lg font-medium">
+                      {item.japaneseWord}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-lg font-medium">No search history available.</p>
+              )}
+            </div>
           </div>
+          {!!results ? <VocabularyDetails details={results} /> : <></>}
         </div>
-        {!!results ? <VocabularyDetails details={results} /> : <></>}
-      </div>
+      )}
     </div>
   );
 };

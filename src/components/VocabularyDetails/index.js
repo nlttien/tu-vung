@@ -5,7 +5,7 @@ const VocabularyDetails = ({ details }) => {
 
   return (
     <>
-      <div className=" p-4 bg-white shadow-lg rounded-lg">
+      <div className="p-4 bg-white shadow-lg rounded-lg">
         {/* Cột 2: Chi tiết từ vựng */}
         <div className="col-span-1">
           {/* Category and Color */}
@@ -59,11 +59,25 @@ const VocabularyDetails = ({ details }) => {
               <p className="text-lg font-medium">No antonyms available.</p>
             )}
           </div>
+
+
         </div>
       </div>
-      <div className=" p-4 bg-white shadow-lg rounded-lg">
 
+      <div className="p-4 bg-white shadow-lg rounded-lg">
         {/* Cột 3: Vocabulary Forms */}
+        {/* Converted Data */}
+        <div className="mb-4">
+          <h2 className="text-xl font-semibold mb-2">Converted Data</h2>
+          <p className="text-lg font-medium">{details.converted_data}</p>
+        </div>
+
+        {/* Joined Hira */}
+        <div className="mb-4">
+          <h2 className="text-xl font-semibold mb-2">Joined Hira</h2>
+          <p className="text-lg font-medium">{details.joined_hira}</p>
+        </div>
+
         <div className="col-span-1">
           <h2 className="text-xl font-semibold mb-2">Vocabulary Forms</h2>
           <ul className="pl-5">

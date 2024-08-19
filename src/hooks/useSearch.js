@@ -2,61 +2,56 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import config from "../untils/config";
 
-/**
- * Custom hook for managing search functionality and history.
- * @param {string} query - The search query string.
- * @returns {Object} - Contains search results, search history, and search function.
- */
 const useSearch = (query) => {
-  const [results, setResults] = useState(); // State to store search results
-  const [history, setHistory] = useState(); // State to store search history
+  const [results, setResults] = useState(null);
+  const [history, setHistory] = useState([]);
+  const [loading, setLoading] = useState(false); // Add loading state
 
-  /**
-   * Function to save search query to local storage history.
-   * @param {string} query - The search query to save.
-   */
-  const saveSearchHistory = (query) => {
-    if (!query) return; // Return if query is empty
+  // Function to save search history
+  const saveSearchHistory = (query, data) => {
+    if (!query) return;
 
-    let existingHistory = JSON.parse(localStorage.getItem('searchHistory')) || []; // Get existing history or initialize as empty array
+    let existingHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
 
-    // Avoid saving duplicate queries
-    if (!existingHistory.includes(query)) {
-      existingHistory.push(query); // Add new query to history
+    const isDuplicate = existingHistory.some(item => item.japaneseWord === query);
+    console.log(isDuplicate);
+
+    // Avoid duplicates
+    if (!isDuplicate) {
+      existingHistory.push(data);
 
       // Save the updated history to localStorage
       localStorage.setItem('searchHistory', JSON.stringify(existingHistory));
-      setHistory(existingHistory); // Update local state with the new history
+      setHistory(existingHistory);
     }
   };
 
-  /**
-   * Function to perform the search operation.
-   * @param {string} query - The search query to use.
-   */
+  // Function to perform search
   const search = async (query) => {
     if (query) {
+      setLoading(true); // Set loading to true when starting search
       try {
-        // Perform search request
         const response = await axios.post(`${config.BE_URI}/api/vocabylary/search`, { subject: query });
-        setResults(response.data); // Update results state with the response data
-        saveSearchHistory(query); // Save query to history after successful search
+        setResults(response.data);
+        saveSearchHistory(query, response.data); // Save query to history after successful search
       } catch (err) {
-        console.error(err); // Log any errors
-        setResults(); // Clear results in case of an error
+        console.error(err);
+        setResults(null);
+      } finally {
+        setLoading(false); // Set loading to false when search is complete
       }
     } else {
-      setResults(); // Clear results if query is empty
+      setResults(null);
     }
   };
 
-  // Load search history when the component mounts
+  // Load search history when component mounts
   useEffect(() => {
-    const existingHistory = JSON.parse(localStorage.getItem('searchHistory')) || []; // Retrieve and parse existing history from local storage
-    setHistory(existingHistory); // Set the history state with the retrieved history
-  }, []); // Empty dependency array ensures this effect runs only once on mount
+    const existingHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
+    setHistory(existingHistory);
+  }, []);
 
-  return { results, history, search }; // Return results, history, and search function for use in components
+  return { results, history, search, loading }; // Return loading state
 };
 
 export default useSearch;
