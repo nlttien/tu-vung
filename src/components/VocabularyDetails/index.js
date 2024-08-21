@@ -1,7 +1,6 @@
 import React from 'react';
 
 const VocabularyDetails = ({ details }) => {
-  console.log(details);
 
   return (
     <>
@@ -26,6 +25,12 @@ const VocabularyDetails = ({ details }) => {
           <div className="mb-4">
             <h2 className="text-xl font-semibold mb-2">Meaning</h2>
             <p className="text-lg font-medium">{details.vietnameseMeaning}</p>
+          </div>
+
+          {/* Origin */}
+          <div className="mb-4">
+            <h2 className="text-xl font-semibold mb-2">Origin</h2>
+            <p className="text-lg font-medium">{details.origin}</p>
           </div>
 
           {/* Related Words */}
@@ -59,8 +64,6 @@ const VocabularyDetails = ({ details }) => {
               <p className="text-lg font-medium">No antonyms available.</p>
             )}
           </div>
-
-
         </div>
       </div>
 

@@ -5,11 +5,22 @@ import Loading from '../../components/loading'; // Import Loading component
 
 const SearchPage = () => {
   const [query, setQuery] = useState('');
+  const [searchType, setSearchType] = useState('gemini');
   const { results, history, search, loading } = useSearch(query);
 
   const handleSearch = (e) => {
     e.preventDefault();
-    search(query);
+    switch (searchType) {
+      case "gemini":
+        search(query);
+        break;
+      case "mazii":
+        window.open(`https://mazii.net/vi-VN/search/word/javi/${query}`, '_blank');
+        break;
+      default:
+        break;
+    }
+
   };
 
   return (
@@ -24,6 +35,16 @@ const SearchPage = () => {
           className="border p-2 flex-1 rounded-l-md"
           disabled={loading} // Disable input while loading
         />
+        <select
+          value={searchType}
+          onChange={(e) => setSearchType(e.target.value)}
+          className="border p-2 rounded-l-md bg-white"
+          disabled={loading} // Disable select while loading
+        >
+          <option value="gemini">gemini</option>
+          <option value="mazii">mazii</option>
+          {/* Add more options as needed */}
+        </select>
         <button
           type="submit"
           onClick={handleSearch}
