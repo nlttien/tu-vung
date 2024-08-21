@@ -33,9 +33,9 @@ const VocabularyDetails = ({ details }) => {
             <h2 className="text-xl font-semibold mb-2">Related Words</h2>
             {details.related_words.length > 0 ? (
               <ul className="list-disc pl-5">
-                {details.related_words.map((word, index) => (
+                {details.related_words.map((item, index) => (
                   <li key={index} className="text-lg font-medium">
-                    {word}
+                    {item.japaneseWord}[{item.joined_hira}]:{item.converted_data}
                   </li>
                 ))}
               </ul>
@@ -49,9 +49,9 @@ const VocabularyDetails = ({ details }) => {
             <h2 className="text-xl font-semibold mb-2">Antonyms</h2>
             {details.antonyms.length > 0 ? (
               <ul className="list-disc pl-5">
-                {details.antonyms.map((word, index) => (
+                {details.antonyms.map((item, index) => (
                   <li key={index} className="text-lg font-medium">
-                    {word}
+                    {item.japaneseWord}[{item.joined_hira}]:{item.converted_data}
                   </li>
                 ))}
               </ul>

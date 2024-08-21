@@ -45,7 +45,7 @@ const SearchPage = () => {
                 <ul className="list-disc pl-5">
                   {history.map((item, index) => (
                     <li key={index} className="text-lg font-medium">
-                      {item.japaneseWord}
+                      {item.japaneseWord}[{item.joined_hira}]:{item.converted_data}
                     </li>
                   ))}
                 </ul>
