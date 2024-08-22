@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import useSearch from '../../hooks/useSearch';
 import VocabularyDetails from '../../components/VocabularyDetails';
 import Loading from '../../components/loading'; // Import Loading component
@@ -7,6 +7,8 @@ const SearchPage = () => {
   const [query, setQuery] = useState('');
   const [searchType, setSearchType] = useState('gemini');
   const { results, history, search, loading } = useSearch(query);
+
+  const inputRef = useRef(null);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -23,6 +25,19 @@ const SearchPage = () => {
 
   };
 
+  const handleClear = () => {
+    setQuery('');
+
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
+
+  const handleHistoryClick = (item) => {
+    setQuery(item.japaneseWord);
+    search(item); // Call search with the clicked item's word
+  };
+
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Search</h1>
@@ -34,7 +49,18 @@ const SearchPage = () => {
           placeholder="Enter search term"
           className="border p-2 flex-1 rounded-l-md"
           disabled={loading} // Disable input while loading
+          ref={inputRef} 
         />
+        {query && (
+          <button
+            type="button"
+            onClick={handleClear}
+            className="bg-gray-300 text-gray-700 p-2 rounded-r-md hover:bg-gray-400"
+            disabled={loading} // Disable button while loading
+          >
+            Clear
+          </button>
+        )}
         <select
           value={searchType}
           onChange={(e) => setSearchType(e.target.value)}
@@ -65,7 +91,7 @@ const SearchPage = () => {
               {history && history.length > 0 ? (
                 <ul className="list-disc pl-5">
                   {history.map((item, index) => (
-                    <li key={index} className="text-lg font-medium">
+                    <li key={index} className="text-lg font-medium" onClick={() => handleHistoryClick(item)}>
                       {item.japaneseWord}[{item.joined_hira}]:{item.converted_data}
                     </li>
                   ))}

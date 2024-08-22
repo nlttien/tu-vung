@@ -30,6 +30,12 @@ const useSearch = (query) => {
   const search = async (query) => {
     if (query) {
       setLoading(true); // Set loading to true when starting search
+      if (!!query.japaneseWord) {
+        setResults(query);
+        setLoading(false);
+        return
+      }
+
       try {
         const response = await axios.post(`${config.BE_URI}/api/vocabylary/search`, { subject: query });
         setResults(response.data);
