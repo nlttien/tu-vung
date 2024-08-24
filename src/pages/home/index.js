@@ -3,6 +3,7 @@ import './home.css'; // Nếu bạn có tệp CSS cho Home
 import useAuthRedirect from '../../hooks/useAuthRedirect';
 import useAuth from '../../hooks/useAuth';
 import List from "../../components/list";
+import KanjiDrawer from '../../dmark/KanjiDrawer';
 
 const Home = () => {
   useAuthRedirect(false, "/admin", "/");
@@ -38,7 +39,11 @@ const Home = () => {
 
   return (
     <div className='container mx-auto px-10'>
-      <List items={flashcards} />
+      {/* <List items={flashcards} /> */}
+      
+      <KanjiDrawer
+        kanji="備" // Thay bằng ký tự Kanji mà bạn muốn vẽ
+      />
     </div>
   );
 };

@@ -3,12 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@heroicons/react": "^2.1.5",
+    "@svgdotjs/svg.js": "^3.2.4",
     "@tensorflow/tfjs": "^4.20.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.3",
     "firebase": "^10.12.4",
+    "hanzi-writer": "^3.7.0",
+    "install": "^0.13.0",
+    "npm": "^10.8.2",
+    "raphael": "^2.3.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.25.1",
@@ -41,8 +47,11 @@
     ]
   },
   "devDependencies": {
+    "file-loader": "^6.2.0",
     "patch-package": "^8.0.0",
     "postinstall-postinstall": "^2.1.0",
-    "tailwindcss": "^3.4.7"
+    "react-svg-loader": "^3.0.3",
+    "tailwindcss": "^3.4.7",
+    "url-loader": "^4.1.1"
   }
 }

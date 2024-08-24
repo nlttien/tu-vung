@@ -11,14 +11,19 @@ const VocabularyDetails = ({ details }) => {
           <div className="mb-4">
             <h2 className="text-xl font-semibold mb-2">Category</h2>
             <p className="text-lg font-medium" style={{ color: details.color }}>
-              {details.category}
+              {details.categories.map((category, index) => (
+                <span key={index}>
+                  {category}
+                  {index !== details.categories.length - 1 ? ", " : ""} {/* Thêm dấu phẩy nếu không phải là phần tử cuối */}
+                </span>
+              ))}
             </p>
           </div>
 
           {/* Popularity */}
           <div className="mb-4">
             <h2 className="text-xl font-semibold mb-2">Popularity</h2>
-            <p className="text-lg font-medium">{details.popularity}%</p>
+            <p className="text-lg font-medium">{details.popularity}</p>
           </div>
 
           {/* Meaning */}
@@ -30,7 +35,9 @@ const VocabularyDetails = ({ details }) => {
           {/* Origin */}
           <div className="mb-4">
             <h2 className="text-xl font-semibold mb-2">Origin</h2>
-            <p className="text-lg font-medium">{details.origin}</p>
+            <p className="text-lg font-medium" dangerouslySetInnerHTML={{
+              __html: details.origin.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+            }} />
           </div>
 
           {/* Related Words */}
