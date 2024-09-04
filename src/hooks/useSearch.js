@@ -7,6 +7,17 @@ const useSearch = (query) => {
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(false); // Add loading state
 
+  const deleteHistory = (item) => {
+    const updatedHistory = history.filter(historyItem => historyItem.japaneseWord !== item);
+    setHistory(updatedHistory);
+    localStorage.setItem('searchHistory', JSON.stringify(updatedHistory)); // Cập nhật localStorage trực tiếp
+  };
+
+  const clearHistory = () => {
+    localStorage.setItem('searchHistory', null); // Cập nhật localStorage trực tiếp
+    setHistory(null)
+  };
+
   // Function to save search history
   const saveSearchHistory = (query, data) => {
     if (!query) return;
@@ -57,7 +68,7 @@ const useSearch = (query) => {
     setHistory(existingHistory);
   }, []);
 
-  return { results, history, search, loading }; // Return loading state
+  return { results, history, search, loading ,deleteHistory,clearHistory}; // Return loading state
 };
 
 export default useSearch;

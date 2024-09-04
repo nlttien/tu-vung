@@ -4,11 +4,12 @@ import VocabularyDetails from '../../components/VocabularyDetails';
 import Loading from '../../components/loading'; // Import Loading component
 import Modal from '../../components/modal';
 import KanjiDrawer from '../../dmark/KanjiDrawer';
+import SearchHistory from '../../components/SearchHistory';
 
 const SearchPage = () => {
   const [query, setQuery] = useState('');
   const [searchType, setSearchType] = useState('gemini');
-  const { results, history, search, loading } = useSearch(query);
+  const { results, history, search, loading, deleteHistory, clearHistory } = useSearch(query);
   const [isModalOpen, setModalOpen] = useState(false);
 
   const inputRef = useRef(null);
@@ -105,22 +106,24 @@ const SearchPage = () => {
         <div className="grid grid-cols-3 gap-4">
           <div className="p-4 bg-white shadow-lg rounded-lg">
             {/* Cột 1: Search History */}
-            <div className="col-span-1">
-              <h2 className="text-xl font-semibold mb-2">Search History</h2>
-              {history && history.length > 0 ? (
-                <ul className="list-disc pl-5">
-                  {history.map((item, index) => (
-                    <li key={index} className="text-lg font-medium" onClick={() => handleHistoryClick(item)}>
-                      {item.japaneseWord}[{item.joined_hira}]:{item.converted_data}
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p className="text-lg font-medium">No search history available.</p>
-              )}
-            </div>
+            <SearchHistory
+              history={history}
+              handleHistoryClick={handleHistoryClick}
+              deleteHistory={deleteHistory}
+              clearHistory={clearHistory}
+            />
           </div>
-          {!!results ? <VocabularyDetails details={results} /> : <></>}
+          {!!results ? (
+            'error' in results && Object.keys(results).length === 1 ? (
+              <div className="text-red-500">Error: {results.error}</div>
+            ) : (
+              <>
+                <VocabularyDetails details={results} />
+              </>
+            )
+          ) : (
+            <></>
+          )}
         </div>
       )}
       <Modal isOpen={isModalOpen} onClose={closeModal}>

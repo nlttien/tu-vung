@@ -7,43 +7,70 @@ const VocabularyDetails = ({ details }) => {
       <div className="p-4 bg-white shadow-lg rounded-lg">
         {/* Cột 2: Chi tiết từ vựng */}
         <div className="col-span-1">
+
+          {details.error ?
+            <div className="mb-4">
+              <div className="text-red-500">{details.error}</div>
+            </div>
+            : <></>
+          }
+
           {/* Category and Color */}
           <div className="mb-4">
             <h2 className="text-xl font-semibold mb-2">Category</h2>
-            <p className="text-lg font-medium" style={{ color: details.color }}>
-              {details.categories.map((category, index) => (
-                <span key={index}>
-                  {category}
-                  {index !== details.categories.length - 1 ? ", " : ""} {/* Thêm dấu phẩy nếu không phải là phần tử cuối */}
-                </span>
-              ))}
-            </p>
+            {details && details.categories && details.color ? ( // Kiểm tra details, details.categories và details.color
+              <p className="text-lg font-medium" style={{ color: details.color }}>
+                {details.categories.map((category, index) => (
+                  <span key={index}>
+                    {category}
+                    {index !== details.categories.length - 1 ? ", " : ""}
+                  </span>
+                ))}
+              </p>
+            ) : (
+              <p className="text-lg font-medium">Category information not available.</p>
+            )}
           </div>
 
           {/* Popularity */}
           <div className="mb-4">
             <h2 className="text-xl font-semibold mb-2">Popularity</h2>
-            <p className="text-lg font-medium">{details.popularity}</p>
+            {details && details.popularity ? ( // Kiểm tra details và details.popularity
+              <p className="text-lg font-medium">{details.popularity}</p>
+            ) : (
+              <p className="text-lg font-medium">Popularity information not available.</p>
+            )}
           </div>
 
           {/* Meaning */}
           <div className="mb-4">
             <h2 className="text-xl font-semibold mb-2">Meaning</h2>
-            <p className="text-lg font-medium">{details.vietnameseMeaning}</p>
+            {details && details.vietnameseMeaning ? ( // Kiểm tra details và details.vietnameseMeaning
+              <p className="text-lg font-medium">{details.vietnameseMeaning}</p>
+            ) : (
+              <p className="text-lg font-medium">Meaning information not available.</p>
+            )}
           </div>
 
           {/* Origin */}
           <div className="mb-4">
             <h2 className="text-xl font-semibold mb-2">Origin</h2>
-            <p className="text-lg font-medium" dangerouslySetInnerHTML={{
-              __html: details.origin.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-            }} />
+            {details && details.origin ? (
+              <p
+                className="text-lg font-medium"
+                dangerouslySetInnerHTML={{
+                  __html: details.origin.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                }}
+              />
+            ) : (
+              <p className="text-lg font-medium">Origin information not available.</p>
+            )}
           </div>
 
           {/* Related Words */}
           <div className="mb-4">
             <h2 className="text-xl font-semibold mb-2">Related Words</h2>
-            {details.related_words.length > 0 ? (
+            {details && details.related_words && details.related_words.length > 0 ? (
               <ul className="list-disc pl-5">
                 {details.related_words.map((item, index) => (
                   <li key={index} className="text-lg font-medium">
@@ -59,7 +86,7 @@ const VocabularyDetails = ({ details }) => {
           {/* Antonyms */}
           <div className="mb-4">
             <h2 className="text-xl font-semibold mb-2">Antonyms</h2>
-            {details.antonyms.length > 0 ? (
+            {details && details.antonyms && details.antonyms.length > 0 ? (
               <ul className="list-disc pl-5">
                 {details.antonyms.map((item, index) => (
                   <li key={index} className="text-lg font-medium">
@@ -91,11 +118,15 @@ const VocabularyDetails = ({ details }) => {
         <div className="col-span-1">
           <h2 className="text-xl font-semibold mb-2">Vocabulary Forms</h2>
           <ul className="pl-5">
-            {Object.entries(details.vocabularyForms).map(([form, value], index) => (
-              <li key={index} className="text-lg font-medium">
-                <span className="font-semibold">{form}:</span> {value}
-              </li>
-            ))}
+            {details.vocabularyForms ? (
+              Object.entries(details.vocabularyForms).map(([form, value], index) => (
+                <li key={index} className="text-lg font-medium">
+                  <span className="font-semibold">{form}:</span> {value}
+                </li>
+              ))
+            ) : (
+              <div className="text-red-500">Error: Vocabulary forms not found</div>
+            )}
           </ul>
         </div>
       </div>
