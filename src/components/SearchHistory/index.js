@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 const SearchHistory = ({ history, handleHistoryClick, deleteHistory, clearHistory }) => {
   const [currentPage, setCurrentPage] = useState(1)
+  const [itemPerPage, setItemPerPage] = useState(20) // biến không thay đổi
 
   const handleDeleteItem = (item) => {
     // Thực hiện logic xóa mục khỏi mảng history tại đây
@@ -25,7 +26,7 @@ const SearchHistory = ({ history, handleHistoryClick, deleteHistory, clearHistor
             .slice()
             .reverse()
             .map((item, index) => {
-              const pageNumber = Math.floor(index / 10) + 1;
+              const pageNumber = Math.floor(index / itemPerPage) + 1;
 
               if (pageNumber === currentPage) {
                 return (
@@ -50,7 +51,7 @@ const SearchHistory = ({ history, handleHistoryClick, deleteHistory, clearHistor
           }
 
           <div>
-            {Array.from({ length: Math.ceil(history.length / 10) }, (_, index) => (
+            {Array.from({ length: Math.ceil(history.length / itemPerPage) }, (_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentPage(index + 1)}

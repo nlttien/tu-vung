@@ -35,8 +35,8 @@ const VocabularyDetails = ({ details }) => {
           {/* Popularity */}
           <div className="mb-4">
             <h2 className="text-xl font-semibold mb-2">Popularity</h2>
-            {details && details.popularity ? ( // Kiểm tra details và details.popularity
-              <p className="text-lg font-medium">{details.popularity}</p>
+            {details && details.popularity && details.difficulty ? ( // Kiểm tra details và details.popularity
+              <p className="text-lg font-medium">{details.popularity} - {details.difficulty}</p>
             ) : (
               <p className="text-lg font-medium">Popularity information not available.</p>
             )}
@@ -59,7 +59,10 @@ const VocabularyDetails = ({ details }) => {
               <p
                 className="text-lg font-medium"
                 dangerouslySetInnerHTML={{
-                  __html: details.origin.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                  __html: details.origin
+                    .replace(/\*(.+?)\n/g, '<li>$1</li>') // Thay thế dấu * ở đầu dòng bằng <li>
+                    .replace(/\#\#/g, '') // Thay thế dấu * ở đầu dòng bằng <li>
+                    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>') // In đậm văn bản giữa ** **
                 }}
               />
             ) : (
@@ -113,6 +116,40 @@ const VocabularyDetails = ({ details }) => {
         <div className="mb-4">
           <h2 className="text-xl font-semibold mb-2">Joined Hira</h2>
           <p className="text-lg font-medium">{details.joined_hira}</p>
+        </div>
+
+        {/* Nihon Meaning */}
+        <div className="mb-4">
+          <h2 className="text-xl font-semibold mb-2">Ý nghĩa tiếng Nhật</h2>
+          {details && details.nihonMeaning ? (
+            <p className="text-lg font-medium">{details.nihonMeaning}</p>
+          ) : (
+            <p className="text-lg font-medium">Không có thông tin ý nghĩa tiếng Nhật.</p>
+          )}
+        </div>
+
+        {/* Examples */}
+        <div className="mb-4">
+          <h2 className="text-xl font-semibold mb-2">Ví dụ</h2>
+          {details && details.examples && details.examples.length > 0 ? (
+            <ul className="list-disc pl-5">
+              {details.examples.map((example, index) => (
+                <li key={index} className="text-lg font-medium">{example}</li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-lg font-medium">Không có ví dụ.</p>
+          )}
+        </div>
+
+        {/* Usage */}
+        <div className="mb-4">
+          <h2 className="text-xl font-semibold mb-2">Cách dùng</h2>
+          {details && details.usage ? (
+            <p className="text-lg font-medium">{details.usage}</p>
+          ) : (
+            <p className="text-lg font-medium">Không có thông tin cách dùng.</p>
+          )}
         </div>
 
         <div className="col-span-1">

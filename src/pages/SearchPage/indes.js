@@ -5,8 +5,10 @@ import Loading from '../../components/loading'; // Import Loading component
 import Modal from '../../components/modal';
 import KanjiDrawer from '../../dmark/KanjiDrawer';
 import SearchHistory from '../../components/SearchHistory';
+import useAuthRedirect from '../../hooks/useAuthRedirect';
 
 const SearchPage = () => {
+  useAuthRedirect(false, "/search", "/");
   const [query, setQuery] = useState('');
   const [searchType, setSearchType] = useState('gemini');
   const { results, history, search, loading, deleteHistory, clearHistory } = useSearch(query);
