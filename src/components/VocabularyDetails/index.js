@@ -60,9 +60,10 @@ const VocabularyDetails = ({ details }) => {
                 className="text-lg font-medium"
                 dangerouslySetInnerHTML={{
                   __html: details.origin
+                    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>') // In đậm văn bản giữa ** **
                     .replace(/\*(.+?)\n/g, '<li>$1</li>') // Thay thế dấu * ở đầu dòng bằng <li>
                     .replace(/\#\#/g, '') // Thay thế dấu * ở đầu dòng bằng <li>
-                    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>') // In đậm văn bản giữa ** **
+                    .replace(/\n/g, '<br/>') // Thay thế dấu * ở đầu dòng bằng <li>
                 }}
               />
             ) : (
