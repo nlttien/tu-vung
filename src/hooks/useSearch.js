@@ -19,15 +19,21 @@ const useSearch = (query) => {
   // Function to save search history, using a Set to prevent duplicates
   const saveSearchHistory = (query, data) => {
     if (!query) return;
-
-    const existingHistory = JSON.parse(localStorage.getItem('searchHistory')) || new Set();
-    if (existingHistory.has(data.japaneseWord)) return; // Check for duplicates
-
-    existingHistory.add(data.japaneseWord);
-
-    localStorage.setItem('searchHistory', JSON.stringify([...existingHistory]));
-    setHistory([...existingHistory]);
+  
+    // 1. Retrieve history as an array
+    const existingHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
+  
+    // 2. Check for duplicates using 'some'
+    if (existingHistory.some(item => item.japaneseWord === query)) return; 
+  
+    // 3. Add the new item
+    existingHistory.push(data);
+  
+    // 4. Save the updated history
+    localStorage.setItem('searchHistory', JSON.stringify(existingHistory));
+    setHistory(existingHistory);
   };
+  
 
   // Function to perform search
   const search = async (query) => {

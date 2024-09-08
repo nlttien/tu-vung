@@ -1,5 +1,4 @@
 import React from 'react';
-import SearchHistoryItem from '../../components/SearchHistoryItem';
 
 const FilteredHistory = ({ filteredHistory, handleHistoryClick, deleteHistory }) => {
   // Trả về null ngay lập tức nếu không có lịch sử tìm kiếm đã lọc
@@ -8,20 +7,38 @@ const FilteredHistory = ({ filteredHistory, handleHistoryClick, deleteHistory })
   }
 
   return (
-    <ul className="list-disc pl-5 mb-4 absolute top-50 left-20 w-1/3 bg-white border border-gray-300 rounded-md shadow-lg p-4">
-      {filteredHistory
-        .reverse() // Đảo ngược mảng trực tiếp, không cần slice() vì nó tạo ra một mảng mới
-        .map((item, index) => (
-          <SearchHistoryItem
-            key={index}
-            item={item}
-            onHistoryClick={handleHistoryClick}
-            onDelete={() => deleteHistory(item.japaneseWord)}
-          />
-        ))
-        // Loại bỏ filter() vì map() đã đảm bảo chỉ render các item hợp lệ
-      }
-    </ul>
+    <div className="relative">
+      {/* This div acts as a container for the dropdown */}
+      <ul
+        className="absolute top-[-2] w-[50%] z-10 bg-white border border-gray-300 rounded-md shadow-lg w-full"
+        style={{ display: filteredHistory.length > 0 ? 'block' : 'none' }} // Show only when there are filtered items
+      >
+        {filteredHistory
+          .reverse()
+          .map((item, index) => (
+            <li
+              key={index}
+              className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+              onClick={() => {
+                handleHistoryClick(item);
+              }}
+            >
+              {item.japaneseWord}[{item.joined_hira}]:{item.converted_data}
+              <button
+                className="ml-2 text-red-500 hover:text-red-700"
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevent triggering li's onClick
+                  deleteHistory(item.japaneseWord);
+                }}
+              >
+                Delete
+              </button>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
   );
 };
 

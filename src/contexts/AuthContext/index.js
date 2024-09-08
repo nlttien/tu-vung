@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     checkAuth();
-  }, []); // Empty dependency array means this effect runs only once on mount
+  }, [setAuthState]); // Empty dependency array means this effect runs only once on mount
 
   return (
     <AuthContext.Provider value={{ ...authState, setAuthState }}> 

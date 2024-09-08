@@ -10,8 +10,6 @@ import { debounce } from 'lodash';
 
 const VocabularyDetails = lazy(() => import('../../components/VocabularyDetails'));
 
-
-
 const SearchPage = () => {
   // Chuyển hướng người dùng nếu chưa đăng nhập
   useAuthRedirect(false, "/search", "/");
@@ -74,8 +72,8 @@ const SearchPage = () => {
   };
 
   // Hàm xử lý khi người dùng nhập liệu vào input
-  const debouncedSearch = debounce((e) => { // Apply debounce to handleInputChange
-    const inputValue = e.target.value; // Lấy giá trị từ input
+  const handleSearchInputChange = (e) => { // Apply debounce to handleInputChange
+    const inputValue = inputRef.current.value; // Lấy giá trị từ input
     setQuery(inputValue);
 
     // Lọc lịch sử tìm kiếm dựa trên giá trị input
@@ -85,18 +83,11 @@ const SearchPage = () => {
         item.joined_hira.toLowerCase().includes(inputValue)
       )
     );
-    console.log(e.target.value);
+    console.log(inputRef.current.value);
 
     setFilteredHistory(filtered); // Cập nhật danh sách lịch sử tìm kiếm đã lọc
     setShowFilteredHistory(true); // Hiển thị danh sách lịch sử tìm kiếm đã lọc
-  }, 500);
-
-  useEffect(() => {
-    // Cleanup function để hủy bỏ debounce khi component unmount
-    return () => {
-      debouncedSearch.cancel();
-    };
-  }, []);
+  };
 
   return (
     <div className="p-6">
@@ -105,7 +96,8 @@ const SearchPage = () => {
         {/* Input nhập từ khóa tìm kiếm */}
         <input
           type="text"
-          onChange={debouncedSearch}
+          value={query}
+          onChange={handleSearchInputChange}
           placeholder="Enter search term"
           className="border p-2 flex-1 rounded-l-md"
           disabled={loading}
