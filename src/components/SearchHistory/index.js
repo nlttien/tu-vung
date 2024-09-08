@@ -1,57 +1,44 @@
 import React, { useState } from 'react';
+import SearchHistoryItem from '../SearchHistoryItem';
 
 const SearchHistory = ({ history, handleHistoryClick, deleteHistory, clearHistory }) => {
-  const [currentPage, setCurrentPage] = useState(1)
-  const [itemPerPage, setItemPerPage] = useState(20) // biến không thay đổi
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 20; // No need to use state for a constant value
 
-  const handleDeleteItem = (item) => {
-    // Thực hiện logic xóa mục khỏi mảng history tại đây
-    deleteHistory(item)
-  };
+  // No need for a separate handleDeleteItem function, 
+  // directly pass deleteHistory to onDelete prop
 
   return (
     <div className="col-span-1">
-      <div className="flex justify-between items-center mb-4"> {/* Thêm flexbox để căn chỉnh */}
+      <div className="flex justify-between items-center mb-4"> 
         <h2 className="text-xl font-semibold">Search History</h2>
         <button
-          onClick={() => { clearHistory() }}
+          onClick={clearHistory} // Directly call the function
           className="bg-red-500 text-white p-2 rounded-md hover:bg-red-600"
         >
           Clear History
         </button>
       </div>
-      {history && history.length > 0 ? (
+      {history.length > 0 ? ( // No need to check for history && 
         <ul className="list-disc pl-5">
           {history
             .slice()
             .reverse()
-            .map((item, index) => {
-              const pageNumber = Math.floor(index / itemPerPage) + 1;
-
-              if (pageNumber === currentPage) {
-                return (
-                  <li
-                    key={index}
-                    className="text-lg font-medium"
-                  >
-                    <span onClick={() => handleHistoryClick(item)}>{item.japaneseWord}[{item.joined_hira}]:{item.converted_data}</span>
-                    <button
-                      onClick={() => handleDeleteItem(item.japaneseWord)}
-                      className="text-red-500 hover:text-red-700"
-                    >
-                      Xóa
-                    </button>
-                  </li>
-                );
-              } else {
-                return null;
-              }
-            })
-            .filter(item => item !== null)
+            // Calculate the start and end index for slicing based on currentPage
+            .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+            .map((item, index) => (
+              <SearchHistoryItem
+                key={index}
+                item={item}
+                onHistoryClick={handleHistoryClick}
+                onDelete={() => deleteHistory(item.japaneseWord)} 
+              />
+            ))
+            // No need for .filter(item => item !== null) as we are slicing directly
           }
 
           <div>
-            {Array.from({ length: Math.ceil(history.length / itemPerPage) }, (_, index) => (
+            {Array.from({ length: Math.ceil(history.length / itemsPerPage) }, (_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentPage(index + 1)}

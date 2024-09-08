@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import Notification from '../../components/notification';
 import useAuthRedirect from '../../hooks/useAuthRedirect';
 import useAuth from '../../hooks/useAuth';
 import AuthContext from '../../contexts/AuthContext';
@@ -7,7 +6,7 @@ import AuthContext from '../../contexts/AuthContext';
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [notification, setNotification] = useState(null);
+  // Removed unused state: [notification, setNotification]
 
   const { login, register } = useAuth();
   const { message } = useContext(AuthContext);
@@ -47,30 +46,26 @@ const Login = () => {
           )}
           <div className="flex flex-col gap-4">
             <div className="flex gap-4">
-              <div
-                onClick={() => { login(username, password) }}
+              <button 
+                type="button" // Added type to button
+                onClick={() => login(username, password)}
                 className="flex-1 py-2 bg-blue-500 text-center text-white rounded-md hover:bg-blue-600"
               >
                 Login
-              </div>
-              <div
-                onClick={() => { register(username, password) }}
+              </button>
+              <button 
+                type="button" // Added type to button
+                onClick={() => register(username, password)}
                 className="flex-1 py-2 bg-green-500 text-center text-white rounded-md hover:bg-green-600"
               >
                 Register
-              </div>
+              </button>
             </div>
           </div>
         </form>
-        {notification && (
-          <Notification
-            message={notification.message}
-            type={notification.type}
-            onClose={() => setNotification(null)}
-          />
-        )}
-      </div >
-    </div >
+        {/* Removed unused Notification component */}
+      </div>
+    </div>
   );
 };
 

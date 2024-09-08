@@ -6,85 +6,86 @@ import config from "../untils/config";
 
 // Custom hook to handle authentication logic
 const useAuth = () => {
-  const navigate = useNavigate(); // Hook to programmatically navigate
-  const { setIsAuthenticated, setRole } = useContext(AuthContext); // Context for managing authentication state
-  const roleDefault = "user"; // Default role for new users
+  const navigate = useNavigate();
+  const { authState, setAuthState } = useContext(AuthContext); // Access authState directly
+  const roleDefault = "user";
 
   // Function to handle user login
   const login = async (username, password) => {
     try {
-      // Send POST request to login endpoint with username and password
-      const response = await axios.post(`${config.BE_URI}/api/auth/login`, {
-        username,
-        password
-      }, {
-        withCredentials: true, // Include cookies with request
+      const response = await axios.post(`${config.BE_URI}/api/auth/login`, { username, password }, { withCredentials: true });
+
+      // Update authState directly
+      setAuthState({
+        ...authState,
+        isAuthenticated: true,
+        role: response.data.role,
       });
 
-      // Update authentication state and user role
-      setIsAuthenticated(true); 
-      setRole(response.data.role); 
-
-      // Navigate user based on their role
-      const navigateTo = response.data.role === 'user' ? '/' : '/admin';
-      navigate(navigateTo); // Redirect to the appropriate page
+      navigate(response.data.role === 'user' ? '/' : '/admin');
     } catch (err) {
-      // Handle login error
       console.error('Login failed', err);
+      // Handle login error, e.g., display an error message
     }
   };
 
   // Function to handle user logout
   const logout = async () => {
     try {
-      // Send POST request to logout endpoint
       await axios.post(`${config.BE_URI}/api/auth/logout`, {}, { withCredentials: true });
 
-      // Update authentication state and navigate to login page
-      setIsAuthenticated(false);
+      // Update authState directly
+      setAuthState({
+        ...authState,
+        isAuthenticated: false,
+        role: null,
+      });
+
       navigate("/login");
     } catch (error) {
-      // Handle logout error
       console.error('Logout failed', error);
+      // Handle logout error, e.g., display an error message
     }
   };
 
   // Function to handle user registration
   const register = async (username, password) => {
     try {
-      // Send POST request to registration endpoint with username, password, and default role
       const response = await axios.post(`${config.BE_URI}/api/auth/register`, { username, password, role: roleDefault }, { withCredentials: true });
-      
-      // Alert user with response message
       alert(response.data.message);
     } catch (err) {
-      // Handle registration error
       console.error('Registration failed', err);
+      // Handle registration error, e.g., display an error message
     }
   };
 
   // Function to refresh authentication token
   const refreshToken = async () => {
     try {
-      // Send POST request to refresh token endpoint
-      const response = await axios.post(`${config.BE_URI}/api/auth/refresh-token`, {}, {
-        withCredentials: true,
+      const response = await axios.post(`${config.BE_URI}/api/auth/refresh-token`, {}, { withCredentials: true });
+
+      // Update authState directly
+      setAuthState({
+        ...authState,
+        isAuthenticated: true,
+        role: response.data.role,
       });
 
-      // Update authentication state and user role based on response
-      setIsAuthenticated(true);
-      setRole(response.data.role); 
-
-      return response.data.accessToken; // Return new access token if needed
+      return response.data.accessToken;
     } catch (error) {
-      // Handle token refresh error
       console.error('Refresh token failed', error);
-      setIsAuthenticated(false); // Set authentication to false on failure
-      navigate("/login"); // Redirect to login page
+
+      // Update authState directly
+      setAuthState({
+        ...authState,
+        isAuthenticated: false,
+        role: null,
+      });
+
+      navigate("/login");
     }
   };
 
-  // Return functions for use in other components
   return { login, logout, register, refreshToken };
 };
 

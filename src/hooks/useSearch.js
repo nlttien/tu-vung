@@ -5,57 +5,51 @@ import config from "../untils/config";
 const useSearch = (query) => {
   const [results, setResults] = useState(null);
   const [history, setHistory] = useState([]);
-  const [loading, setLoading] = useState(false); // Add loading state
+  const [loading, setLoading] = useState(false);
 
-  const deleteHistory = (item) => {
-    const updatedHistory = history.filter(historyItem => historyItem.japaneseWord !== item);
+  // Combine deleteHistory and clearHistory into one function with optional item
+  const manageHistory = (item) => {
+    const updatedHistory = item 
+      ? history.filter(historyItem => historyItem.japaneseWord !== item)
+      : [];
     setHistory(updatedHistory);
-    localStorage.setItem('searchHistory', JSON.stringify(updatedHistory)); // Cập nhật localStorage trực tiếp
+    localStorage.setItem('searchHistory', JSON.stringify(updatedHistory));
   };
 
-  const clearHistory = () => {
-    localStorage.setItem('searchHistory', null); // Cập nhật localStorage trực tiếp
-    setHistory(null)
-  };
-
-  // Function to save search history
+  // Function to save search history, using a Set to prevent duplicates
   const saveSearchHistory = (query, data) => {
     if (!query) return;
 
-    let existingHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
+    const existingHistory = JSON.parse(localStorage.getItem('searchHistory')) || new Set();
+    if (existingHistory.has(data.japaneseWord)) return; // Check for duplicates
 
-    const isDuplicate = existingHistory.some(item => item.japaneseWord === query);
-    console.log(isDuplicate);
+    existingHistory.add(data.japaneseWord);
 
-    // Avoid duplicates
-    if (!isDuplicate) {
-      existingHistory.push(data);
-
-      // Save the updated history to localStorage
-      localStorage.setItem('searchHistory', JSON.stringify(existingHistory));
-      setHistory(existingHistory);
-    }
+    localStorage.setItem('searchHistory', JSON.stringify([...existingHistory]));
+    setHistory([...existingHistory]);
   };
 
   // Function to perform search
   const search = async (query) => {
     if (query) {
-      setLoading(true); // Set loading to true when starting search
+      setLoading(true); 
+
+      // Check if query is already in results
       if (!!query.japaneseWord) {
         setResults(query);
         setLoading(false);
-        return
+        return; 
       }
 
       try {
         const response = await axios.post(`${config.BE_URI}/api/vocabylary/search`, { subject: query });
         setResults(response.data);
-        saveSearchHistory(query, response.data); // Save query to history after successful search
+        saveSearchHistory(query, response.data); 
       } catch (err) {
         console.error(err);
         setResults(null);
       } finally {
-        setLoading(false); // Set loading to false when search is complete
+        setLoading(false); 
       }
     } else {
       setResults(null);
@@ -68,7 +62,7 @@ const useSearch = (query) => {
     setHistory(existingHistory);
   }, []);
 
-  return { results, history, search, loading ,deleteHistory,clearHistory}; // Return loading state
+  return { results, history, search, loading, deleteHistory: manageHistory, clearHistory: () => manageHistory() }; 
 };
 
 export default useSearch;

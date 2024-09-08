@@ -5,7 +5,7 @@ import useAuthRedirect from '../../../hooks/useAuthRedirect';
 import { Outlet } from 'react-router-dom';
 
 const AdminPage = () => {
-  useAuthRedirect(false, "/admin", "/");
+  useAuthRedirect(true, "/admin", "/");
 
   return (
     <div className="flex">

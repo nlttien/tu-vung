@@ -13,7 +13,7 @@ import VocabularyTable from './pages/admin/VocabularyTable';
 import Dashboard from './pages/admin/dashboard';
 import NotFound from './pages/notFound';
 import UserManagement from './pages/admin/UserManagement';
-import SearchPage from './pages/SearchPage/indes';
+import SearchPage from './pages/SearchPage';
 
 const App = () => {
   const location = useLocation();
