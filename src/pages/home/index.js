@@ -17,7 +17,7 @@ const Home = () => {
     };
 
     refresh();
-  }, [refreshToken]);
+  }, []);
 
   const flashcards = [
     { front: 'Front 1', back: 'Bsdddddddddddddddddddddddddsdfasdfadfzsddfsdfasdfasdfack 1' },
@@ -40,10 +40,6 @@ const Home = () => {
   return (
     <div className='container mx-auto px-10'>
       {/* <List items={flashcards} /> */}
-      
-      <KanjiDrawer
-        kanji="備" // Thay bằng ký tự Kanji mà bạn muốn vẽ
-      />
     </div>
   );
 };
