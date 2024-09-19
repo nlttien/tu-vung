@@ -3,16 +3,14 @@ import useSearch from '../../hooks/useSearch';
 import Loading from '../../components/loading';
 import Modal from '../../components/modal';
 import KanjiDrawer from '../../dmark/KanjiDrawer';
-import SearchHistory from '../../components/SearchHistory';
-import useAuthRedirect from '../../hooks/useAuthRedirect';
+import SearchHistory from '../../components/SearchHistory/index.v1';
 import FilteredHistory from '../../components/FilteredHistory';
-import { debounce } from 'lodash';
 
-const VocabularyDetails = lazy(() => import('../../components/VocabularyDetails'));
+const VocabularyDetails = lazy(() => import('../../components/VocabularyDetails/index.v1'));
 
 const SearchPage = () => {
   // Chuyển hướng người dùng nếu chưa đăng nhập
-  useAuthRedirect(false, "/search", "/");
+  // useAuthRedirect(false, "/search", "/");
 
   // State để lưu trữ từ khóa tìm kiếm
   const [query, setQuery] = useState('');

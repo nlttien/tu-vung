@@ -10,7 +10,7 @@ const SearchHistory = ({ history, handleHistoryClick, deleteHistory, clearHistor
 
   return (
     <div className="col-span-1">
-      <div className="flex justify-between items-center mb-4"> 
+      <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-semibold">Search History</h2>
         <button
           onClick={clearHistory} // Directly call the function
@@ -31,7 +31,7 @@ const SearchHistory = ({ history, handleHistoryClick, deleteHistory, clearHistor
                 key={index}
                 item={item}
                 onHistoryClick={handleHistoryClick}
-                onDelete={() => deleteHistory(item.japaneseWord)} 
+                onDelete={() => deleteHistory(item.japaneseWord)}
               />
             ))
             // No need for .filter(item => item !== null) as we are slicing directly

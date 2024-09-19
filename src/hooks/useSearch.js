@@ -16,23 +16,28 @@ const useSearch = (query) => {
     localStorage.setItem('searchHistory', JSON.stringify(updatedHistory));
   };
 
-  // Function to save search history, using a Set to prevent duplicates
   const saveSearchHistory = (query, data) => {
     if (!query) return;
   
-    // 1. Retrieve history as an array
+    // 1. Lấy lịch sử dưới dạng mảng
     const existingHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
   
-    // 2. Check for duplicates using 'some'
-    if (existingHistory.some(item => item.japaneseWord === query)) return; 
+    // 2. Kiểm tra xem từ đã tồn tại trong lịch sử chưa
+    const existingIndex = existingHistory.findIndex(item => item.japaneseWord === query);
   
-    // 3. Add the new item
-    existingHistory.push(data);
+    // 3. Nếu từ đã tồn tại, xóa nó khỏi vị trí hiện tại
+    if (existingIndex !== -1) {
+      existingHistory.splice(existingIndex, 1);
+    }
   
-    // 4. Save the updated history
+    // 4. Thêm từ vào đầu lịch sử
+    existingHistory.unshift(data);
+  
+    // 5. Lưu lịch sử đã cập nhật
     localStorage.setItem('searchHistory', JSON.stringify(existingHistory));
     setHistory(existingHistory);
   };
+  
   
 
   // Function to perform search
@@ -43,6 +48,7 @@ const useSearch = (query) => {
       // Check if query is already in results
       if (!!query.japaneseWord) {
         setResults(query);
+        saveSearchHistory(query.japaneseWord, query); 
         setLoading(false);
         return; 
       }

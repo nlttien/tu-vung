@@ -151,21 +151,6 @@ const VocabularyDetails = ({ details }) => {
             <p className="text-lg font-medium">Không có thông tin cách dùng.</p>
           )}
         </div>
-
-        <div className="col-span-1">
-          <h2 className="text-xl font-semibold mb-2">Vocabulary Forms</h2>
-          <ul className="pl-5">
-            {details.vocabularyForms ? (
-              Object.entries(details.vocabularyForms).map(([form, value], index) => (
-                <li key={index} className="text-lg font-medium">
-                  <span className="font-semibold">{form}:</span> {value}
-                </li>
-              ))
-            ) : (
-              <div className="text-red-500">Error: Vocabulary forms not found</div>
-            )}
-          </ul>
-        </div>
       </div>
     </>
   );
