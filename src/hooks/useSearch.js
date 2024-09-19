@@ -9,7 +9,7 @@ const useSearch = (query) => {
 
   // Combine deleteHistory and clearHistory into one function with optional item
   const manageHistory = (item) => {
-    const updatedHistory = item 
+    const updatedHistory = item
       ? history.filter(historyItem => historyItem.japaneseWord !== item)
       : [];
     setHistory(updatedHistory);
@@ -18,50 +18,48 @@ const useSearch = (query) => {
 
   const saveSearchHistory = (query, data) => {
     if (!query) return;
-  
+
     // 1. Lấy lịch sử dưới dạng mảng
     const existingHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
-  
+
     // 2. Kiểm tra xem từ đã tồn tại trong lịch sử chưa
     const existingIndex = existingHistory.findIndex(item => item.japaneseWord === query);
-  
+
     // 3. Nếu từ đã tồn tại, xóa nó khỏi vị trí hiện tại
     if (existingIndex !== -1) {
       existingHistory.splice(existingIndex, 1);
     }
-  
-    // 4. Thêm từ vào đầu lịch sử
-    existingHistory.unshift(data);
-  
+
+    // 4. Thêm từ vào cuối lịch sử
+    existingHistory.push(data);
+
     // 5. Lưu lịch sử đã cập nhật
     localStorage.setItem('searchHistory', JSON.stringify(existingHistory));
     setHistory(existingHistory);
   };
   
-  
-
   // Function to perform search
   const search = async (query) => {
     if (query) {
-      setLoading(true); 
+      setLoading(true);
 
       // Check if query is already in results
       if (!!query.japaneseWord) {
         setResults(query);
-        saveSearchHistory(query.japaneseWord, query); 
+        saveSearchHistory(query.japaneseWord, query);
         setLoading(false);
-        return; 
+        return;
       }
 
       try {
         const response = await axios.post(`${config.BE_URI}/api/vocabylary/search`, { subject: query });
         setResults(response.data);
-        saveSearchHistory(query, response.data); 
+        saveSearchHistory(query, response.data);
       } catch (err) {
         console.error(err);
         setResults(null);
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     } else {
       setResults(null);
@@ -74,7 +72,7 @@ const useSearch = (query) => {
     setHistory(existingHistory);
   }, []);
 
-  return { results, history, search, loading, deleteHistory: manageHistory, clearHistory: () => manageHistory() }; 
+  return { results, history, search, loading, deleteHistory: manageHistory, clearHistory: () => manageHistory() };
 };
 
 export default useSearch;

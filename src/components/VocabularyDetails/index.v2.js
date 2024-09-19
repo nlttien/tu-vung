@@ -38,8 +38,8 @@ const VocabularyDetails = ({ details, darkMode }) => {
             <span
               key={index}
               className={`${darkMode
-                  ? 'bg-blue-900 text-blue-200'
-                  : 'bg-blue-200 text-blue-800'
+                ? 'bg-blue-900 text-blue-200'
+                : 'bg-blue-200 text-blue-800'
                 } px-2 py-1 rounded text-sm`}
             >
               {category}
@@ -61,6 +61,16 @@ const VocabularyDetails = ({ details, darkMode }) => {
         <span className="font-semibold">Độ khó:</span>{' '}
         {details?.difficulty}
       </p>
+
+      <p className="mb-2">
+        <span className="font-semibold">Hiragana:</span>{' '}
+        {details?.joined_hira}
+      </p>
+      <p className="mb-2">
+        <span className="font-semibold">Hán Việt:</span>{' '}
+        {details?.converted_data}
+      </p>
+
       <p className="mb-2">
         <span className="font-semibold">Nghĩa tiếng Việt:</span>{' '}
         <span
@@ -71,10 +81,33 @@ const VocabularyDetails = ({ details, darkMode }) => {
 
       <div className="mb-2">
         <button
+          onClick={() => toggleSection('origin')}
+          className={`flex items-center font-semibold ${darkMode
+            ? 'text-indigo-300 hover:text-indigo-400'
+            : 'text-indigo-600 hover:text-indigo-800'
+            }`}
+        >
+          Nguồn gốc{' '}
+          {expandedSections.origin ? (
+            <FaChevronUp className="ml-1" />
+          ) : (
+            <FaChevronDown className="ml-1" />
+          )}
+        </button>
+        {expandedSections.origin && (
+          <p
+            className="text-lg"
+            dangerouslySetInnerHTML={formatText(details?.origin)}
+          />
+        )}
+      </div>
+
+      <div className="mb-2">
+        <button
           onClick={() => toggleSection('usage')}
           className={`flex items-center font-semibold ${darkMode
-              ? 'text-indigo-300 hover:text-indigo-400'
-              : 'text-indigo-600 hover:text-indigo-800'
+            ? 'text-indigo-300 hover:text-indigo-400'
+            : 'text-indigo-600 hover:text-indigo-800'
             }`}
         >
           Cách dùng{' '}
@@ -96,8 +129,8 @@ const VocabularyDetails = ({ details, darkMode }) => {
         <button
           onClick={() => toggleSection('examples')}
           className={`flex items-center font-semibold ${darkMode
-              ? 'text-indigo-300 hover:text-indigo-400'
-              : 'text-indigo-600 hover:text-indigo-800'
+            ? 'text-indigo-300 hover:text-indigo-400'
+            : 'text-indigo-600 hover:text-indigo-800'
             }`}
         >
           Ví dụ{' '}
@@ -134,8 +167,8 @@ const VocabularyDetails = ({ details, darkMode }) => {
         <button
           onClick={() => toggleSection('relatedWords')}
           className={`flex items-center font-semibold ${darkMode
-              ? 'text-indigo-300 hover:text-indigo-400'
-              : 'text-indigo-600 hover:text-indigo-800'
+            ? 'text-indigo-300 hover:text-indigo-400'
+            : 'text-indigo-600 hover:text-indigo-800'
             }`}
         >
           Từ liên quan{' '}
@@ -162,8 +195,8 @@ const VocabularyDetails = ({ details, darkMode }) => {
         <button
           onClick={() => toggleSection('antonyms')}
           className={`flex items-center font-semibold ${darkMode
-              ? 'text-indigo-300 hover:text-indigo-400'
-              : 'text-indigo-600 hover:text-indigo-800'
+            ? 'text-indigo-300 hover:text-indigo-400'
+            : 'text-indigo-600 hover:text-indigo-800'
             }`}
         >
           Từ trái nghĩa{' '}
@@ -186,37 +219,7 @@ const VocabularyDetails = ({ details, darkMode }) => {
         )}
       </div>
 
-      <p className="mb-2">
-        <span className="font-semibold">Hiragana:</span>{' '}
-        {details?.joined_hira}
-      </p>
-      <p className="mb-2">
-        <span className="font-semibold">Hán Việt:</span>{' '}
-        {details?.converted_data}
-      </p>
-
-      <div className="mb-2">
-        <button
-          onClick={() => toggleSection('origin')}
-          className={`flex items-center font-semibold ${darkMode
-              ? 'text-indigo-300 hover:text-indigo-400'
-              : 'text-indigo-600 hover:text-indigo-800'
-            }`}
-        >
-          Nguồn gốc{' '}
-          {expandedSections.origin ? (
-            <FaChevronUp className="ml-1" />
-          ) : (
-            <FaChevronDown className="ml-1" />
-          )}
-        </button>
-        {expandedSections.origin && (
-          <p
-            className="text-lg"
-            dangerouslySetInnerHTML={formatText(details?.origin)}
-          />
-        )}
-      </div>
+      
     </div>
   );
 };

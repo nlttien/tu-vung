@@ -8,7 +8,11 @@ const SearchHistory = ({ history, handleHistoryClick, deleteHistory, clearHistor
   // Tính toán chỉ số bắt đầu và kết thúc cho việc cắt mảng lịch sử
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentHistory = history.slice(indexOfFirstItem, indexOfLastItem);
+  const currentHistory =
+    history
+      .slice()
+      .reverse()
+      .slice(indexOfFirstItem, indexOfLastItem);
 
   // Hàm xử lý khi người dùng chuyển trang
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -22,45 +26,43 @@ const SearchHistory = ({ history, handleHistoryClick, deleteHistory, clearHistor
         <>
           <ul className="list-none pl-0 mb-2">
             {/* Hiển thị lịch sử tìm kiếm cho trang hiện tại */}
-            {currentHistory.map((item, index) => (
-              <li
-                key={index}
-                className={`mb-2 flex items-center justify-between ${
-                  darkMode ? 'bg-gray-800' : 'bg-gray-100'
-                } p-2 rounded`}
-              >
-                <button
-                  onClick={() => handleHistoryClick(item)}
-                  className={`${
-                    darkMode
+            {currentHistory
+              .map((item, index) => (
+                <li
+                  key={index}
+                  className={`mb-2 flex items-center justify-between ${darkMode ? 'bg-gray-800' : 'bg-gray-100'
+                    } p-2 rounded`}
+                >
+                  <button
+                    onClick={() => handleHistoryClick(item)}
+                    className={`${darkMode
                       ? 'text-indigo-300 hover:text-indigo-400'
                       : 'text-indigo-600 hover:text-indigo-800'
-                  } hover:underline`}
-                >
-                  {item.japaneseWord}
-                </button>
-                <button
-                  onClick={() => deleteHistory(item.japaneseWord)}
-                  className="text-red-500 hover:text-red-700"
-                  aria-label="Xóa khỏi lịch sử"
-                >
-                  <FaTimes />
-                </button>
-              </li>
-            ))}
+                      } hover:underline`}
+                  >
+                    {item.japaneseWord}
+                  </button>
+                  <button
+                    onClick={() => deleteHistory(item.japaneseWord)}
+                    className="text-red-500 hover:text-red-700"
+                    aria-label="Xóa khỏi lịch sử"
+                  >
+                    <FaTimes />
+                  </button>
+                </li>
+              ))}
           </ul>
 
           {/* Phân trang */}
-          <div className="flex justify-center">
+          <div className="flex justify-center flex-wrap">
             {Array.from({ length: Math.ceil(history.length / itemsPerPage) }).map((_, index) => (
               <button
                 key={index}
                 onClick={() => paginate(index + 1)}
-                className={`px-3 py-1 mx-1 rounded-md ${
-                  currentPage === index + 1
-                    ? 'bg-indigo-500 text-white'
-                    : 'bg-gray-300 text-gray-700 hover:bg-gray-400'
-                }`}
+                className={`px-3 py-1 mx-1 rounded-md ${currentPage === index + 1
+                  ? 'bg-indigo-500 text-white'
+                  : 'bg-gray-300 text-gray-700 hover:bg-gray-400'
+                  }`}
               >
                 {index + 1}
               </button>
