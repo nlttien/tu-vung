@@ -20,6 +20,7 @@ const useAuth = () => {
         ...authState,
         isAuthenticated: true,
         role: response.data.role,
+        id: response.data.id,
       });
 
       navigate(response.data.role === 'user' ? '/' : '/admin');
@@ -52,7 +53,7 @@ const useAuth = () => {
   const register = async (username, password) => {
     try {
       const response = await axios.post(`${config.BE_URI}/api/auth/register`, { username, password, role: roleDefault }, { withCredentials: true });
-      alert(response.data.message);
+      return response.data.message;
     } catch (err) {
       console.error('Registration failed', err);
       // Handle registration error, e.g., display an error message
@@ -69,6 +70,7 @@ const useAuth = () => {
         ...authState,
         isAuthenticated: true,
         role: response.data.role,
+        id: response.data.id
       });
 
       return response.data.accessToken;

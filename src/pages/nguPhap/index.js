@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import useNguPhapSearch from '../../hooks/useNguPhap'; // Make sure to import the correct hook
 import Loading from '../../components/loading';
 import FilteredHistory from '../../components/FilteredHistory';

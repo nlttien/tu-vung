@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import './home.css'; // Nếu bạn có tệp CSS cho Home
+import './home.css'; 
 import useAuthRedirect from '../../hooks/useAuthRedirect';
 import useAuth from '../../hooks/useAuth';
 import List from "../../components/list";

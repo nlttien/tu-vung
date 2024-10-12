@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import AuthContext from '../../contexts/AuthContext';
 import logo from "../../logo/nihongo-high-resolution-logo-transparent.png"; // Path to the logo image
 import useAuth from '../../hooks/useAuth';
-import { FaHome, FaBook, FaSearch, FaGamepad, FaSignInAlt, FaChevronRight, FaSun, FaMoon } from "react-icons/fa";
+import { FaHome, FaBook, FaSearch, FaGamepad, FaSignInAlt, FaChevronRight, FaSun, FaMoon, FaSignOutAlt } from "react-icons/fa";
 import DarkModeContext from '../../contexts/DarkModeContext';
 
 const Header = () => {
@@ -18,7 +18,7 @@ const Header = () => {
     { name: "Ngữ pháp", icon: FaBook, link: "/ngu-phap" },
     { name: "Search", icon: FaSearch, link: "/search" },
     { name: "Game", icon: FaGamepad, link: "/game" },
-    { name: isAuthenticated ? "Login" : "logout", icon: FaSignInAlt, link: isAuthenticated ? "#" : "/login", action: isAuthenticated ? logout : null }
+    { name: isAuthenticated ? "logout" : "login", icon: isAuthenticated ? FaSignInAlt : FaSignOutAlt, link: isAuthenticated ? "" : "/login", action: isAuthenticated ? logout : null }
   ])
   useEffect(() => {
     setTabs([
@@ -26,7 +26,7 @@ const Header = () => {
       { name: "Ngữ pháp", icon: FaBook, link: "/ngu-phap" },
       { name: "Search", icon: FaSearch, link: "/search" },
       { name: "Game", icon: FaGamepad, link: "/game" },
-      { name: isAuthenticated ? "Login" : "logout", icon: FaSignInAlt, link: isAuthenticated ? "#" : "/login", action: isAuthenticated ? logout : null }
+      { name: isAuthenticated ? "logout" : "login", icon: isAuthenticated ? FaSignInAlt : FaSignOutAlt, link: isAuthenticated ? "" : "/login", action: isAuthenticated ? logout : null }
     ])
   }, [isAuthenticated])
 
@@ -48,7 +48,10 @@ const Header = () => {
             {tabs.map((tab) => (
               <button
                 key={tab.name}
-                onClick={() => handleTabClick(tab.name)}
+                onClick={() => {
+                  handleTabClick(tab.name)
+                  tab.action && tab.action()
+                }}
                 className={`flex items-center px-2 py-1 rounded-md text-sm font-medium ${activeTab === tab.name
                   ? darkMode
                     ? 'bg-gray-700 text-white'
@@ -59,8 +62,11 @@ const Header = () => {
                   } transition-all duration-200 ease-in-out focus:outline-none focus:ring-1 focus:ring-theme-color-secondary`}
                 aria-current={activeTab === tab.name ? "page" : undefined}
               >
-                <tab.icon className="h-4 w-4 mr-1" aria-hidden="true" />
-                <Link to={tab.link}>{tab.name}</Link>
+
+                <Link to={tab.link}>
+                  <div className='flex items-center'><tab.icon className="h-4 w-4 mr-1" aria-hidden="true" />
+                    {tab.name}</div>
+                </Link>
               </button>
             ))}
           </div>
@@ -69,15 +75,25 @@ const Header = () => {
           <div className="md:hidden">
             <select
               value={activeTab}
-              onChange={(e) => handleTabClick(e.target.value)}
+              onChange={(e) => {
+                handleTabClick(e.target.value);
+                const selectedTab = tabs.find(tab => {
+                  return tab.name === e.target.value
+                });
+                selectedTab.action && selectedTab.action();
+                // Navigate to the link
+                if (selectedTab.link) {
+                  window.location.href = selectedTab.link;
+                }
+              }}
               className={`block w-full py-1 px-2 text-sm border ${darkMode
-                  ? 'border-gray-600 bg-gray-700 text-white'
-                  : 'border-theme-color-secondary bg-theme-color-primary text-theme-color-secondary'
+                ? 'border-gray-600 bg-gray-700 text-white'
+                : 'border-theme-color-secondary bg-theme-color-primary text-theme-color-secondary'
                 } rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-theme-color-secondary focus:border-theme-color-secondary`}
             >
               {tabs.map((tab) => (
                 <option key={tab.name} value={tab.name}>
-                  <Link to={tab.link}>{tab.name}</Link>
+                  {tab.name}
                 </option>
               ))}
             </select>
@@ -107,10 +123,9 @@ const Header = () => {
             </li>
             <li>
               <div className="flex items-center">
-              <FaChevronRight className={`h-5 w-5 ${darkMode ? 'text-gray-500' : 'text-theme-color-secondary'}`} aria-hidden="true" />
-                <a href="#" className={`ml-1 text-sm font-medium ${
-                  darkMode ? 'text-gray-300 hover:text-white' : 'text-theme-color-secondary hover:text-theme-color-secondary-dark'
-                } md:ml-2`}>{activeTab}</a>
+                <FaChevronRight className={`h-5 w-5 ${darkMode ? 'text-gray-500' : 'text-theme-color-secondary'}`} aria-hidden="true" />
+                <a href="#" className={`ml-1 text-sm font-medium ${darkMode ? 'text-gray-300 hover:text-white' : 'text-theme-color-secondary hover:text-theme-color-secondary-dark'
+                  } md:ml-2`}>{activeTab}</a>
               </div>
             </li>
           </ol>

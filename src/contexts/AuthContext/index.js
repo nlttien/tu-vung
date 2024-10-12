@@ -10,6 +10,7 @@ export const AuthProvider = ({ children }) => {
   const [authState, setAuthState] = useState({
     isAuthenticated: null,
     role: null,
+    id: '',
     message: '', // Store authentication messages
   });
 
@@ -24,6 +25,7 @@ export const AuthProvider = ({ children }) => {
         setAuthState({
           isAuthenticated: response.status === 200,
           role: response.data.role,
+          id: response.data.id,
           message: '', // Clear any previous messages on successful authentication
         });
       } catch (error) {

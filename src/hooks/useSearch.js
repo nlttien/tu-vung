@@ -37,11 +37,12 @@ const useSearch = (query) => {
     localStorage.setItem('searchHistory', JSON.stringify(existingHistory));
     setHistory(existingHistory);
   };
-  
+
   // Function to perform search
   const search = async (query) => {
     if (query) {
       setLoading(true);
+      setResults({ japaneseWord: query });
 
       // Check if query is already in results
       if (!!query.japaneseWord) {
@@ -52,7 +53,7 @@ const useSearch = (query) => {
       }
 
       try {
-        const response = await axios.post(`${config.BE_URI}/api/vocabylary/search`, { subject: query });
+        const response = await axios.post(`${config.BE_URI}/api/vocabylary/search`, { subject: query }, { withCredentials: true });
         setResults(response.data);
         saveSearchHistory(query, response.data);
       } catch (err) {

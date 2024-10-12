@@ -4,13 +4,14 @@ import {
   FaTimes,
 } from 'react-icons/fa';
 import useSearch from '../../hooks/useSearch';
-import Loading from '../../components/loading'; // Nhớ import component Loading
 import VocabularyDetails from "../../components/VocabularyDetails/index.v2";
 import SearchHistory from '../../components/SearchHistory/index.v2';
 import DarkModeContext from '../../contexts/DarkModeContext';
 import './searchPage.css';
+import useAuthRedirect from '../../hooks/useAuthRedirect';
 
 const VocabularyExplainer = () => {
+  useAuthRedirect(false, "/admin", "/");
   const { darkMode } = useContext(DarkModeContext)
 
   // State để lưu trữ từ khóa tìm kiếm
@@ -87,17 +88,17 @@ const VocabularyExplainer = () => {
 
   return (
     <div className={`vocabulary-explainer ${darkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'}`}>
-      <div className="container mx-auto px-4 py-8">
+      <div className="mx-auto px-4 py-8">
         <div className="flex flex-col md:flex-row gap-8">
           {/* Right Column */}
-          <div className="w-full md:w-1/5">
-            {/* Lịch sử tìm kiếm */}
+          {/* Lịch sử tìm kiếm */}
+          {/* <div className="w-full md:w-2/5">
             {history && <SearchHistory history={history} handleHistoryClick={handleHistoryClick} deleteHistory={deleteHistory} clearHistory={clearHistory} darkMode={darkMode} />}
-          </div>
+          </div> */}
 
-          <div className="w-full md:w-4/5">
+          <div className="w-full">
             <div
-              className={`max-w-4xl mx-auto p-6 ${darkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'
+              className={`max-w-screen-2xl mx-auto p-6 ${darkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'
                 }  transition-colors duration-300`}
             >
               <div className="flex justify-between items-center mb-6">
@@ -108,15 +109,14 @@ const VocabularyExplainer = () => {
                   Tra Từ Điển
                 </h1>
               </div>
-
               {/* Form tìm kiếm */}
-              <form className="mb-4 flex" onSubmit={handleSearch}>
+              <form className="mb-4 flex flex-row flex-nowrap" onSubmit={handleSearch}>
                 <input
                   type="text"
                   value={query}
                   onChange={handleSearchInputChange}
-                  placeholder="Nhập từ khóa cần tìm..."
-                  className={`flex-grow p-2 border ${darkMode
+                  placeholder="Nhập từ khóa ..."
+                  className={`${query ? "sm-basis-2/5" : "sm-basis-1/2"}  w-full p-2 border ${darkMode
                     ? 'border-gray-600 bg-gray-800 text-white'
                     : 'border-gray-300 bg-white text-black'
                     } rounded-l-md focus:outline-none focus:ring-2 focus:ring-indigo-500`}
@@ -128,7 +128,7 @@ const VocabularyExplainer = () => {
                   <button
                     type="button"
                     onClick={handleClear}
-                    className="bg-gray-300 text-gray-700 p-2 rounded-r-md hover:bg-gray-400"
+                    className="bg-gray-300 sm-basis-1/5 text-gray-700 p-2 hover:bg-gray-400 flex-shrink-0"
                     disabled={loading}
                   >
                     Xóa
@@ -139,8 +139,7 @@ const VocabularyExplainer = () => {
                 <select
                   value={searchType}
                   onChange={(e) => setSearchType(e.target.value)}
-                  className={`border p-2 rounded-l-md ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'
-                    }`} // Thêm class cho dark mode
+                  className={`${query ? "sm-basis-1/5" : "sm-basis-1/3"} sm-w-full border p-2 ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`} // Thêm class cho dark mode
                   disabled={loading}
                 >
                   <option value="gemini">gemini</option>
@@ -152,7 +151,7 @@ const VocabularyExplainer = () => {
                   className={`${darkMode
                     ? 'bg-indigo-500 hover:bg-indigo-600'
                     : 'bg-indigo-600 hover:bg-indigo-700'
-                    } text-white p-2 rounded-r-md focus:outline-none focus:ring-2 focus:ring-indigo-500`}
+                    } text-white p-2 ${query ? "sm-basis-1/5" : "sm-basis-1/6"} rounded-r-md focus:outline-none focus:ring-2 focus:ring-indigo-500`}
                   aria-label="Tìm kiếm"
                   disabled={loading}
                 >
@@ -160,8 +159,6 @@ const VocabularyExplainer = () => {
                 </button>
               </form>
 
-              {/* Hiển thị loading spinner nếu loading = true */}
-              {loading && <Loading />}
 
               {/* Hiển thị danh sách lịch sử tìm kiếm đã lọc */}
               {showFilteredHistory && filteredHistory.length > 0 && (
@@ -179,7 +176,7 @@ const VocabularyExplainer = () => {
                           : 'text-indigo-600 hover:text-indigo-800'
                           } hover:underline`}
                       >
-                        {item.japaneseWord}
+                        {item.japaneseWord}{item.converted_data}{item.joined_hira}
                       </button>
                       <button
                         onClick={() => deleteHistory(item.japaneseWord)}
@@ -192,11 +189,11 @@ const VocabularyExplainer = () => {
                   ))}
                 </ul>
               )}
-
-              {/* Hiển thị kết quả tìm kiếm */}
-              {results && <VocabularyDetails details={results} darkMode={darkMode} />}
-
-
+              {results
+                ? ('error' in results && Object.keys(results).length === 1
+                  ? (<div className="text-red-500 mb-4">Error: {results.error}</div>)
+                  : <VocabularyDetails details={results} darkMode={darkMode} />)
+                : null}
             </div>
           </div>
 

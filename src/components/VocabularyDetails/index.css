@@ -1,0 +1,11 @@
+.loading-bar-short {
+  width: 50%;
+}
+
+.loading-bar-medium {
+  width: 75%;
+}
+
+.loading-bar-long {
+  width: 100%;
+}
